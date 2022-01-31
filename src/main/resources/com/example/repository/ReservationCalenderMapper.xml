@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.repository.ReservationCalenderMapper">
+
+<resultMap type="com.example.domain.ReservationCalender" id="reservationCalenderMap">
+	<id property="date" column="date"></id>
+	<id property="roomId" column="room_id"></id>
+	<result property="reservedRoom" column="reserved_room"></result>
+	<result property="reservableRoom" column="reservable_room"></result>
+</resultMap>
+
+<select id="findEmptyRoom" resultType="com.example.domain.ReservationCalender">
+	select 
+		date, room_id, reserved_room, reservable_room 
+	from reservation_calender 
+	where date between #{startDate} and #{endDate} 
+	and room_id = #{roomId}
+</select>
+
+
+<update id="updateReservationCalender">
+	update reservation_calender 
+	set reserved_room = reserved_room + 1 
+	where date between #{date} and DATE_ADD(#{date}, INTERVAL #{stayDays} DAY) 
+	and room_id = #{roomId}
+</update>
+
+</mapper>
