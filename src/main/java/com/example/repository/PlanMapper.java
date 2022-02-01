@@ -11,7 +11,7 @@ import com.example.domain.Room;
 
 @Mapper
 public interface PlanMapper {
-	public List<Plan> findPlanByDate(
+	public List<Plan> findPlanWithDate(
 			@Param("smoking") Integer smoking, 
 			@Param("bathroom") Integer bathroom, 
 			@Param("breakfast") Integer breakfast, 
@@ -21,7 +21,7 @@ public interface PlanMapper {
 			@Param("numOfGuest") Integer numOfGuest
 			);
 	
-	public List<Plan> findPlan(
+	public List<Plan> findPlanWithoutDate(
 			@Param("smoking") Integer smoking, 
 			@Param("bathroom") Integer bathroom, 
 			@Param("breakfast") Integer breakfast, 
@@ -30,6 +30,16 @@ public interface PlanMapper {
 			@Param("numOfGuest") Integer numOfGuest);
 	
 	public Plan findGuestCapaAndCharge(Integer planId);
+	
+	public List<Plan> findAll();
+	
+	public Plan findById(Integer id);
+	
+	public void insert(Plan plan);
+	
+	public void update(Plan plan);
+	
+	public void delete(Integer planId);
 	
 	
 	

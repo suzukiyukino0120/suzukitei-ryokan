@@ -1,32 +1,47 @@
-package com.example.domain;
+package com.example.form;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
 
 
-public class Plan {
-	
+public class UpdatePlanForm {
 	private Integer id;
 	
+	@NotBlank(message="プラン名を入力してください")
 	private String name;
 
+	@NotNull(message="部屋タイプを選択してください")
 	private Integer roomId;
 	
-	private Room room;
-	
+	@NotNull(message="朝食の有無を選択してください")
 	private Integer breakfast;
 	
+	@NotNull(message="夕食の有無を選択してください")
 	private Integer dinner;
 	
+	@NotNull(message="基本料金を入力してください")
 	private Integer basicCharge;
 	
+	@NotNull(message="追加料金を入力してください")
 	private Integer additionalCharge;
 	
+	@NotBlank(message="プラン説明を入力してください")
 	private String comment;
 	
-	private String image;
+	private MultipartFile image;
 	
+	@NotNull(message="どちらかを選択してください")
+	private Integer nowImage;
 	
-	
-	public int getCalcTotalPrice(int numOfPeople) {
-		return 0;
+
+	public Integer getNowImage() {
+		return nowImage;
+	}
+
+	public void setNowImage(Integer nowImage) {
+		this.nowImage = nowImage;
 	}
 
 	public Integer getId() {
@@ -92,38 +107,22 @@ public class Plan {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
 
-
-	public String getImage() {
+	public MultipartFile getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(MultipartFile image) {
 		this.image = image;
-	}
-
-	public Room getRoom() {
-		return room;
-	}
-
-	public void setRoom(Room room) {
-		this.room = room;
 	}
 
 	@Override
 	public String toString() {
-		return "Plan [id=" + id + ", name=" + name + ", roomId=" + roomId + ", room=" + room + ", breakfast="
-				+ breakfast + ", dinner=" + dinner + ", basicCharge=" + basicCharge + ", additionalCharge="
-				+ additionalCharge + ", comment=" + comment + ", image=" + image + "]";
+		return "UpdatePlanForm [id=" + id + ", name=" + name + ", roomId=" + roomId + ", breakfast=" + breakfast
+				+ ", dinner=" + dinner + ", basicCharge=" + basicCharge + ", additionalCharge=" + additionalCharge
+				+ ", comment=" + comment + ", image=" + image + ", nowImage=" + nowImage + "]";
 	}
 
-	
-
-	
-	
-
-	
 	
 
 }

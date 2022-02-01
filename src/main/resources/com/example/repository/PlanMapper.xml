@@ -33,7 +33,7 @@
 	</resultMap>
 	
 	
-	<select id="findPlanByDate" resultMap="planMap">
+	<select id="findPlanWithDate" resultMap="planMap">
 			select 
 				r.id AS r_id, 
 				r.smoking AS r_smoking, 
@@ -75,7 +75,7 @@
 		</where>
 	</select>
 	
-	<select id="findPlan" resultMap="planMap">
+	<select id="findPlanWithoutDate" resultMap="planMap">
 		select r.id AS r_id, 
 				r.smoking AS r_smoking, 
 				r.bathroom AS r_bathroom, 
@@ -120,6 +120,31 @@
 		join rooms AS r on r.id = p.room_id 
 		where p.id = #{planId}
 	</select>
+	
+	<select id="findAll" resultType="com.example.domain.Plan">
+		select * from plans
+	</select>
+	
+	<select id="findById" resultType="com.example.domain.Plan">
+		select * from plans where id=#{id}
+	</select>
+	
+	
+	
+	<update id="update">
+		update plans 
+		set name=#{name}, room_id=#{roomId}, breakfast=#{breakfast}, dinner=#{dinner}, basic_charge=#{basicCharge}, additional_charge=#{additionalCharge}, comment=#{comment}, image=#{image}  
+		where id=#{id} 	
+	</update>
+	
+	<insert id="insert">
+		insert into plans (name, room_id, breakfast, dinner, basic_charge, additional_charge, comment, image) 
+		values (#{name}, #{roomId}, #{breakfast}, #{dinner}, #{basicCharge}, #{additionalCharge}, #{comment}, #{image})
+	</insert>	
+	
+	<delete id="delete">
+		delete from plans where id=#{id}
+	</delete>
 
 <!-- 
 

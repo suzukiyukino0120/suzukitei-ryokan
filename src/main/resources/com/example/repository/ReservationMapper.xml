@@ -43,5 +43,33 @@
 							#{payMethod}, 
 							#{totalPrice})
 	</insert>
+	
+	<select id="find" resultType="com.example.domain.Reservation">
+		select * 
+		from reservation 
+		<where>
+			<if test="name != null">
+				AND name LIKE CONCAT('%', #{name}, '%')
+			</if>
+			<if test="kana != null">
+				AND kana LIKE CONCAT('%', #{kana}, '%')
+			</if>
+			<if test="payMethod != null">
+				AND pay_method = #{payMethod}
+			</if>
+			<if test="checkinDate != null">
+				AND checkin_date <![CDATA[ <= ]]> #{checkinDate} 
+				AND DATE_ADD(checkin_date, INTERVAL stay_days DAY) <![CDATA[ >= ]]> #{checkinDate}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findById" resultType="com.example.domain.Reservation">
+		select * from reservation where id = #{id}
+	</select>
+	
+	<delete id="delete">
+		delete from reservation where id = #{id}
+	</delete>
 
 </mapper>

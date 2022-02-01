@@ -19,11 +19,11 @@ public class PlanService {
 	private PlanMapper planMapper;
 	
 	public List<Plan> searchPlanByDate(Integer smoking, Integer bathroom, Integer breakfast, Integer dinner, LocalDate date, Integer stayDays, Integer numOfGuest){
-		return planMapper.findPlanByDate(smoking, bathroom, breakfast, dinner, date, stayDays, numOfGuest);
+		return planMapper.findPlanWithDate(smoking, bathroom, breakfast, dinner, date, stayDays, numOfGuest);
 	}
 	
 	public List<Plan> searchPlan(Integer smoking, Integer bathroom, Integer breakfast, Integer dinner, Integer planId, Integer numOfGuest){
-		return planMapper.findPlan(smoking, bathroom, breakfast, dinner, planId, numOfGuest);
+		return planMapper.findPlanWithoutDate(smoking, bathroom, breakfast, dinner, planId, numOfGuest);
 	}
 	
 	/*
