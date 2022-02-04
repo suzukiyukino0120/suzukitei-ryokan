@@ -10,7 +10,7 @@ public class ReservationCalender {
 	
 	private Integer reservedRoom;
 	
-	private Integer reservableRoom;
+	private Integer reservationLimit;
 	
 	private String empty;
 
@@ -39,12 +39,13 @@ public class ReservationCalender {
 		this.reservedRoom = reservedRoom;
 	}
 
-	public Integer getReservableRoom() {
-		return reservableRoom;
+
+	public Integer getReservationLimit() {
+		return reservationLimit;
 	}
 
-	public void setReservableRoom(Integer reservableRoom) {
-		this.reservableRoom = reservableRoom;
+	public void setReservationLimit(Integer reservationLimit) {
+		this.reservationLimit = reservationLimit;
 	}
 
 	public String getEmpty() {
@@ -58,8 +59,9 @@ public class ReservationCalender {
 	@Override
 	public String toString() {
 		return "ReservationCalender [date=" + date + ", roomId=" + roomId + ", reservedRoom=" + reservedRoom
-				+ ", reservableRoom=" + reservableRoom + ", empty=" + empty + "]";
+				+ ", reservationLimit=" + reservationLimit + ", empty=" + empty + "]";
 	}
+
 
 
 	

@@ -44,8 +44,10 @@ public class ReservationForm {
 	@NotNull(message="h”‘l”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
 	private Integer numOfGuest;
 	
-	@NotEmpty(message="‚¨x•¥•û–@‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢")
-	private String payMethod;
+	@NotNull(message="‚¨x•¥•û–@‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢")
+	private Integer payMethod;
+	
+	private Integer planId;
 	
 
 	public String getName() {
@@ -120,20 +122,31 @@ public class ReservationForm {
 		this.numOfGuest = numOfGuest;
 	}
 
-	public String getPayMethod() {
+	public Integer getPayMethod() {
 		return payMethod;
 	}
 
-	public void setPayMethod(String payMethod) {
+	public void setPayMethod(Integer payMethod) {
 		this.payMethod = payMethod;
+	}
+	
+	
+
+	public Integer getPlanId() {
+		return planId;
+	}
+
+	public void setPlanId(Integer planId) {
+		this.planId = planId;
 	}
 
 	@Override
 	public String toString() {
-		return "BookingForm [name=" + name + ", kana=" + kana + ", zipcode=" + zipcode + ", address=" + address
+		return "ReservationForm [name=" + name + ", kana=" + kana + ", zipcode=" + zipcode + ", address=" + address
 				+ ", telephone=" + telephone + ", email=" + email + ", checkinDate=" + checkinDate + ", stayDays="
-				+ stayDays + ", numOfGuest=" + numOfGuest + ", payMethod=" + payMethod + "]";
+				+ stayDays + ", numOfGuest=" + numOfGuest + ", payMethod=" + payMethod + ", planId=" + planId + "]";
 	}
+
 
 
 	

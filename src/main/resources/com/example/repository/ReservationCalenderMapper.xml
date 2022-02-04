@@ -9,17 +9,23 @@
 	<id property="date" column="date"></id>
 	<id property="roomId" column="room_id"></id>
 	<result property="reservedRoom" column="reserved_room"></result>
-	<result property="reservableRoom" column="reservable_room"></result>
+	<result property="reservationLimit" column="reservation_limit"></result>
 </resultMap>
 
-<select id="findEmptyRoom" resultType="com.example.domain.ReservationCalender">
+<select id="findReservableRoomById" resultType="com.example.domain.ReservationCalender">
 	select 
-		date, room_id, reserved_room, reservable_room 
+		date, room_id, reserved_room, reservation_limit 
 	from reservation_calender 
 	where date between #{startDate} and #{endDate} 
 	and room_id = #{roomId}
 </select>
 
+<select id="findAllReservationLimit" resultType="com.example.domain.ReservationCalender">
+	select 
+		date, room_id, reserved_room, reservation_limit 
+	from reservation_calender 
+	where date between #{startDate} and #{endDate}
+</select>
 
 <update id="updateReservationCalender">
 	update reservation_calender 
@@ -28,4 +34,24 @@
 	and room_id = #{roomId}
 </update>
 
+<update id="updateReservationLimit">
+		update reservation_calender 
+		set reservation_limit = ELT(FIELD(room_id, 	
+	<foreach collection ="list" item="reservationCalender" separator=",">
+		#{reservationCalender.roomId}
+    </foreach>
+    	), 
+    <foreach collection ="list" item="reservationCalender" separator=",">
+    	#{reservationCalender.reservationLimit} 
+    </foreach>
+    	) 
+    	where (room_id, date) in ( 
+    <foreach collection ="list" item="reservationCalender" separator=",">
+    	( 
+    	#{reservationCalender.roomId}, 
+    	#{reservationCalender.date} 
+    	)
+    </foreach>
+    	);
+</update>
 </mapper>

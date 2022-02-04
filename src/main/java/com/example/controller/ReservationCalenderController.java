@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,16 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.ReservationCalender;
 import com.example.domain.Plan;
-import com.example.form.SearchEmptyRoomForm;
+import com.example.form.SearchReservableRoomForm;
 import com.example.service.ReservationCalenderService;
 
 @Controller
-@RequestMapping("/emptyRoom")
+@RequestMapping("/reservableRoom")
 public class ReservationCalenderController {
 	
 	@ModelAttribute
-	public SearchEmptyRoomForm setUpSearchRoomForm() {
-		return new SearchEmptyRoomForm();
+	public SearchReservableRoomForm setUpSearchRoomForm() {
+		return new SearchReservableRoomForm();
 	}
 	
 	@Autowired 
@@ -34,7 +35,7 @@ public class ReservationCalenderController {
 	@Autowired
 	private ReservationCalenderService reservationCalenderService;
 	
-	@RequestMapping("/toSearchEmptyRoom")
+	@RequestMapping("/toSearchReservableRoom")
 	public String toSearchRoom(Integer planListNum) {
 		
 		session.removeAttribute("reservationCalender");
@@ -43,46 +44,28 @@ public class ReservationCalenderController {
 		
 		session.setAttribute("plan", planList.get(planListNum));
 		
-		return "search_empty_room";
+		return "search_reservable_room";
 	}
 	
-	@RequestMapping("/searchEmptyRoom")
-	public String searchEmptyRoom(@Validated SearchEmptyRoomForm form, BindingResult result,  Model model){
-		
-		LocalDate today = LocalDate.now();
+	@RequestMapping("/searchReservableRoom")
+	public String searchEmptyRoom(@Validated SearchReservableRoomForm form, BindingResult result,  Model model){
 		
 		if(result.hasErrors()) {
-			if(form.getStartDate() != null && form.getEndDate() != null) {
-				if((today.compareTo(form.getStartDate()) >= 0) || (today.compareTo(form.getEndDate()) >= 0)) {
-					model.addAttribute("dateError", "–¾“úˆÈ~‚Ì“ú•t‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
-				}
-			}
-			
-		return "search_empty_room";
-		}
-		if((today.compareTo(form.getStartDate()) >= 0) || (today.compareTo(form.getEndDate()) >= 0)) {
-			model.addAttribute("dateError", "–¾“úˆÈ~‚Ì“ú•t‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
-			return "search_empty_room";
+			return"search_reservable_room";
 		}
 		
+		String strStartOfMonth = form.getMonth() +"-01";
+		LocalDate startOfMonth = LocalDate.parse(strStartOfMonth, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	
+		LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
+		
 		Plan plan = (Plan) session.getAttribute("plan");
-		
-		List<ReservationCalender> reservationInfo 
-			= reservationCalenderService.searchReservedRoom(form.getStartDate(), form.getEndDate(), plan.getRoomId());
+
+		List<ReservationCalender> reservationCalender 
+			= reservationCalenderService.searchReservedRoom(startOfMonth, endOfMonth, plan.getRoomId());
 	
-		
-		for(ReservationCalender day: reservationInfo) {
-			if(day.getReservedRoom() >= day.getReservableRoom()) {
-				day.setEmpty("~");
-			}else {
-				day.setEmpty("Z");
-			}
-		}
-		
-		session.setAttribute("reservationCalender", reservationInfo); 
-		
-		return "search_empty_room";
+		session.setAttribute("reservationCalender", reservationCalender); 
+		return "search_reservable_room";
 		
 	}
 

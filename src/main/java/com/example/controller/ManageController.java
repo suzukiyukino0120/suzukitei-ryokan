@@ -3,25 +3,35 @@ package com.example.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.domain.Plan;
 import com.example.domain.Reservation;
+import com.example.domain.ReservationCalender;
 import com.example.form.CreatePlanForm;
+import com.example.form.SearchReservableRoomForm;
 import com.example.form.SearchReservationForm;
+import com.example.form.SearchReservationLimitForm;
 import com.example.form.UpdatePlanForm;
+import com.example.form.UpdateReservationLimitForm;
 import com.example.service.ManageService;
+import com.example.validator.UpdatePlanValidator;
 
 @Controller
 @RequestMapping("/manage")
@@ -44,8 +54,26 @@ public class ManageController {
 		return new SearchReservationForm();
 	}
 	
+	@ModelAttribute
+	public SearchReservationLimitForm setUpSearchReservationLimitForm() {
+		return new SearchReservationLimitForm();
+	} 
+	
+	@ModelAttribute
+	public UpdateReservationLimitForm setUpUpdateReservationLimitForm() {
+		return new UpdateReservationLimitForm();
+	}
+	
 	@Autowired
 	private ManageService manageService;
+	
+	@Autowired
+	private UpdatePlanValidator updatePlanValidator;
+	
+	@InitBinder("updatePlanForm")
+    public void validatorBinder(WebDataBinder binder) {
+        binder.addValidators(updatePlanValidator);
+    }
 	
 	
 	@RequestMapping("/toRegisteredPlanList")
@@ -62,35 +90,22 @@ public class ManageController {
 	}
 	
 	@RequestMapping("/createPlan")
-	public String createPlan(@Validated CreatePlanForm form, BindingResult result, Model model) {
+	public String createPlan(@Validated CreatePlanForm createPlanForm, BindingResult result, Model model) {
 		if(result.hasErrors()) {
 			return"manage/create_plan";
 		}
 		
 		Plan plan = new Plan();
-
-		plan.setName(form.getName());
-		plan.setRoomId(form.getRoomId());
-		plan.setBreakfast(form.getBreakfast());
-		plan.setDinner(form.getDinner());
-		plan.setBasicCharge(form.getBasicCharge());
-		plan.setAdditionalCharge(form.getAdditionalCharge());
-		plan.setComment(form.getComment());
-
-//		画像の名前を取得・ファイルに保存
-		MultipartFile multiFile = form.getImage();
-		String imageName = multiFile.getOriginalFilename();
 		
-		File filepath = new File("src/main/resources/static/img/plans/"+imageName);
-		try {
-			byte[] bytes = multiFile.getBytes();
-			FileOutputStream stream = new FileOutputStream(filepath.toString());
-			stream.write(bytes);
-			stream.close();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+		plan.setName(createPlanForm.getName());
+		plan.setRoomId(createPlanForm.getRoomId());
+		plan.setBreakfast(createPlanForm.getBreakfast());
+		plan.setDinner(createPlanForm.getDinner());
+		plan.setBasicCharge(createPlanForm.getBasicCharge());
+		plan.setAdditionalCharge(createPlanForm.getAdditionalCharge());
+		plan.setComment(createPlanForm.getComment());
+
+		String imageName = strageImage(createPlanForm.getImage());
 		plan.setImage(imageName);
 		
 		manageService.insertPlan(plan);
@@ -104,89 +119,64 @@ public class ManageController {
 		Plan plan = manageService.findPlanById(id);
 		
 		//編集フォームに現在の登録内容が入力済になるようにする
-		UpdatePlanForm form = new UpdatePlanForm();
-		form.setId(plan.getId());
-		form.setName(plan.getName());
-		form.setRoomId(plan.getRoomId());
-		form.setBreakfast(plan.getBreakfast());
-		form.setDinner(plan.getDinner());
-		form.setBasicCharge(plan.getBasicCharge());
-		form.setAdditionalCharge(plan.getAdditionalCharge());
-		form.setComment(plan.getComment());
-		form.setNowImage(0);
+		UpdatePlanForm updatePlanForm = new UpdatePlanForm();
+		updatePlanForm.setId(plan.getId());
+		updatePlanForm.setName(plan.getName());
+		updatePlanForm.setRoomId(plan.getRoomId());
+		updatePlanForm.setBreakfast(plan.getBreakfast());
+		updatePlanForm.setDinner(plan.getDinner());
+		updatePlanForm.setBasicCharge(plan.getBasicCharge());
+		updatePlanForm.setAdditionalCharge(plan.getAdditionalCharge());
+		updatePlanForm.setComment(plan.getComment());
+		updatePlanForm.setNowImage(0);
 		
-		model.addAttribute("updatePlanForm", form);
+		model.addAttribute("updatePlanForm", updatePlanForm);
 		session.setAttribute("image", plan.getImage());
 		
 		return "manage/update_plan";
 	}
 	
+	
+//	画像の名前を取得・ファイルに保存するメソッド
+	public String strageImage(MultipartFile image) {
+		String imageName = image.getOriginalFilename();
+		
+		File filepath = new File("src/main/resources/static/img/plans/"+imageName);
+		try {
+			byte[] bytes = image.getBytes();
+			FileOutputStream stream = new FileOutputStream(filepath.toString());
+			stream.write(bytes);
+			stream.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return imageName;
+	}
+	
 	@RequestMapping("/updatePlan")
-	public String updatePlan(@Validated UpdatePlanForm form, BindingResult result, Model model) {
+	public String updatePlan(@Validated UpdatePlanForm updatePlanForm, BindingResult result, Model model) {
 		if(result.hasErrors()) {
-			if(form.getNowImage() == 1) {
-				if(form.getImage() == null) {
-				model.addAttribute("imageError", "イメージを変更する場合はイメージを添付してください。");
-				System.out.println("1今"+form.getNowImage());
-				System.out.println("1変えた"+form.getImage());
-				}
-			}else {
-				if(form.getImage() != null) {
-				model.addAttribute("imageError", "イメージを変更しない場合はイメージを添付しないでください");
-				}
-			}
 		System.out.println(result);
 			return "manage/update_plan";
 	}
-		
-		if(form.getNowImage() == 1) {
-			if(form.getImage() == null) {
-				model.addAttribute("imageError", "イメージを変更する場合はイメージを添付してください。");
-				
-				System.out.println("今"+form.getNowImage());
-				System.out.println("変えた"+form.getImage());
-			
-				return "manage/update_plan";
-			}
-		}else {
-			if(form.getImage() != null) {
-				model.addAttribute("imageError", "イメージを変更しない場合はイメージを添付しないでください");
-				
-				System.out.println("2今"+form.getNowImage());
-				System.out.println("2変えた"+form.getImage());
-				return "manage/update_plan";
-			}
-		}
 				
 		Plan plan = new Plan();
-		System.out.println(form);
+		System.out.println(updatePlanForm);
 		
-		plan.setId(form.getId());
-		plan.setName(form.getName());
-		plan.setRoomId(form.getRoomId());
-		plan.setBreakfast(form.getBreakfast());
-		plan.setDinner(form.getDinner());
-		plan.setBasicCharge(form.getBasicCharge());
-		plan.setAdditionalCharge(form.getAdditionalCharge());
-		plan.setComment(form.getComment());
+		plan.setId(updatePlanForm.getId());
+		plan.setName(updatePlanForm.getName());
+		plan.setRoomId(updatePlanForm.getRoomId());
+		plan.setBreakfast(updatePlanForm.getBreakfast());
+		plan.setDinner(updatePlanForm.getDinner());
+		plan.setBasicCharge(updatePlanForm.getBasicCharge());
+		plan.setAdditionalCharge(updatePlanForm.getAdditionalCharge());
+		plan.setComment(updatePlanForm.getComment());
 		
-		if(form.getNowImage() == 0) {
+		if(updatePlanForm.getNowImage() == 0) {
 			plan.setImage((String) session.getAttribute("image"));
 		}else {
 			
-//			画像の名前を取得・ファイルに保存
-			MultipartFile multiFile = form.getImage();
-			String imageName = multiFile.getOriginalFilename();
-			
-			File filepath = new File("src/main/resources/static/img/plans/"+imageName);
-			try {
-				byte[] bytes = multiFile.getBytes();
-				FileOutputStream stream = new FileOutputStream(filepath.toString());
-				stream.write(bytes);
-				stream.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+		String imageName = strageImage(updatePlanForm.getImage());
 			
 			plan.setImage(imageName);
 		}
@@ -226,13 +216,13 @@ public class ManageController {
 	}
 	
 	@RequestMapping("/searchReservation")
-	public String searchReservation(SearchReservationForm form, Model model) {
+	public String searchReservation(SearchReservationForm searchReservationForm, Model model) {
 		
 		Reservation reservation = new Reservation();
-		reservation.setName(form.getName());
-		reservation.setKana(form.getKana());
-		reservation.setCheckinDate(form.getDate());
-		reservation.setPayMethod(form.getPayMethod());
+		reservation.setName(searchReservationForm.getName());
+		reservation.setKana(searchReservationForm.getKana());
+		reservation.setCheckinDate(searchReservationForm.getDate());
+		reservation.setPayMethod(searchReservationForm.getPayMethod());
 		
 		model.addAttribute("reservationList", manageService.find(reservation));
 		
@@ -252,6 +242,70 @@ public class ManageController {
 		
 		return"redirect:/manage/toReservationList";
 	}
+
+	@RequestMapping("/toReservationLimit")
+	public String toReservationLimit() {
+		return"/manage/reservable_room_manage";
+	}
 	
+	@RequestMapping("/searchReservationLimit")
+	public String searchReservationLimit(@Validated SearchReservationLimitForm searchReservationLimitForm, BindingResult result,  Model model) {
+		if(result.hasErrors()) {
+			return "/manage/reservable_room_manage";
+		}
+		model.addAttribute("reservationCalender", manageService.findAllReservationLimit(searchReservationLimitForm.getStartDate(), searchReservationLimitForm.getEndDate()));
+		
+		return"/manage/reservable_room_manage";
+	}
 	
+	@RequestMapping("/toUpdateReservationLimit")
+	public String toUpdateReservationLimit(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, Model model) {
+		List<ReservationCalender> reservationCalender = manageService.findAllReservationLimit(date, date);
+		UpdateReservationLimitForm updateReservationLimitForm = new UpdateReservationLimitForm();
+		updateReservationLimitForm.setDate(date);
+		updateReservationLimitForm.setLimitOfRoom1(reservationCalender.get(0).getReservationLimit());
+		updateReservationLimitForm.setLimitOfRoom2(reservationCalender.get(1).getReservationLimit());
+		updateReservationLimitForm.setLimitOfRoom3(reservationCalender.get(2).getReservationLimit());
+		updateReservationLimitForm.setLimitOfRoom4(reservationCalender.get(3).getReservationLimit());
+		model.addAttribute("updateReservationLimitForm", updateReservationLimitForm);
+		
+		return"/manage/reservable_room_update";
+	}
+	
+	@RequestMapping("/updateReservationLimit")
+	public String updateReservationLimit(@Validated UpdateReservationLimitForm updateReservationLimitForm, BindingResult result, Model model) {
+		
+		List<ReservationCalender> reservationCalender = new ArrayList<>();
+		
+		ReservationCalender calenderOfRoom1 = new ReservationCalender();
+		calenderOfRoom1.setRoomId(1);
+		calenderOfRoom1.setDate(updateReservationLimitForm.getDate());
+		calenderOfRoom1.setReservationLimit(updateReservationLimitForm.getLimitOfRoom1());
+		reservationCalender.add(calenderOfRoom1);
+		
+		ReservationCalender calenderOfRoom2 = new ReservationCalender();
+		calenderOfRoom2.setRoomId(2);
+		calenderOfRoom2.setDate(updateReservationLimitForm.getDate());
+		calenderOfRoom2.setReservationLimit(updateReservationLimitForm.getLimitOfRoom2());
+		reservationCalender.add(calenderOfRoom2);
+		
+		ReservationCalender calenderOfRoom3 = new ReservationCalender();
+		calenderOfRoom3.setRoomId(3);
+		calenderOfRoom3.setDate(updateReservationLimitForm.getDate());
+		calenderOfRoom3.setReservationLimit(updateReservationLimitForm.getLimitOfRoom3());
+		reservationCalender.add(calenderOfRoom3);
+		
+		ReservationCalender calenderOfRoom4 = new ReservationCalender();
+		calenderOfRoom4.setRoomId(4);
+		calenderOfRoom4.setDate(updateReservationLimitForm.getDate());
+		calenderOfRoom4.setReservationLimit(updateReservationLimitForm.getLimitOfRoom4());
+		reservationCalender.add(calenderOfRoom4);
+		
+		System.out.println(reservationCalender);
+		
+		manageService.updateReservationLimit(reservationCalender);
+		
+		return"/manage/reservable_room_manage";
+		
+	}
 }

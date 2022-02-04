@@ -61,7 +61,7 @@
 			    <tr><td width="400"></td>
 			    	<td style="font-family:serif"><div>ご宿泊日</div></td>
 			    	<td><div class="col-md-5">
-			    	<div th:text="${dateError}" style="color:red"></div>
+			    	<div th:errors="*{date}" style="color:red"></div>
 			    	</div>
 			    	<div class="col-md-4">
 			    		<input type="date" name="startDate" th:field="*{date}" class="form-control">
@@ -161,7 +161,7 @@
 	    	<td colspan="6">
 	    		<br>
 				<div class="text-center">
-	    		<form th:action="@{/emptyRoom/toSearchEmptyRoom}" method="post">
+	    		<form th:action="@{/reservableRoom/toSearchReservableRoom}" method="post">
 	    		<input type="hidden" name=planListNum th:value="${status.index}">
 				<button class="btn btn-outline-secondary" type="submit" style="font-family:serif">空室を確認する</button>
 				</form>

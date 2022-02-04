@@ -24,7 +24,7 @@
           <a class="nav-link" th:href="@{/manage/toReservationList}" style="font-family:sans-serif">予約一覧</a>
         </li>
  		<li class="nav-item">
-          <a class="nav-link" href="#" style="font-family:sans-serif">予約枠管理</a>
+          <a class="nav-link" th:href="@{/manage/toReservationLimit}" style="font-family:sans-serif">予約枠管理</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family:sans-serif">
@@ -139,6 +139,7 @@
       <td>
       <div th:text="${imageError}" style="color:red"></div>
       <div th:errors="*{nowImage}" style="color:red"></div>
+      <div th:errors="*{image}" style="color:red"></div>
       <label id="nowImage">
       <input class="form-check-input" type="radio" id="nowImage" name="nowImage" value=0 th:field="*{nowImage}">このままのイメージにする
       </label>

@@ -5,12 +5,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -23,6 +26,10 @@ import com.example.domain.Room;
 import com.example.form.ReservationForm;
 import com.example.service.ReservationCalenderService;
 import com.example.service.ReservationService;
+import com.example.validator.ReservationValidator;
+import com.example.validator.SearchPlanValidator;
+
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 
 @Controller
 @RequestMapping("/reservation")
@@ -31,6 +38,14 @@ public class ReservationController {
 	@Autowired 
 	private HttpSession session;
 	
+	@Autowired
+	public ReservationValidator reservationValidator;
+	
+	@InitBinder("reservationForm")
+    public void validatorBinder(WebDataBinder binder) {
+        binder.addValidators(reservationValidator);
+    }
+	
 	@ModelAttribute
 	public ReservationForm setUpReservationForm() { 
 		
@@ -38,16 +53,7 @@ public class ReservationController {
 		ReservationForm form = new ReservationForm();
 		if(session.getAttribute("reservation") != null){
 			Reservation reservation = (Reservation) session.getAttribute("reservation");
-			form.setName(reservation.getName());
-			form.setKana(reservation.getKana());
-			form.setZipcode(reservation.getZipcode());
-			form.setAddress(reservation.getAddress());
-			form.setTelephone(reservation.getTelephone());
-			form.setEmail(reservation.getEmail());
-			form.setCheckinDate(reservation.getCheckinDate());
-			form.setStayDays(reservation.getStayDays());
-			form.setNumOfGuest(reservation.getNumOfGuest());
-			form.setPayMethod(String.valueOf(reservation.getPayMethod()));
+			BeanUtils.copyProperties(reservation, form);
 		}
 		
 		return form;
@@ -69,12 +75,8 @@ public class ReservationController {
 							@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkinDate, Model model) {
 		
 		if(planListNum != null) {
-			
 			List<Plan> planList = (List<Plan>) session.getAttribute("planList");
-			
 			session.setAttribute("plan", planList.get(planListNum));
-			System.out.println(planList.get(planListNum));
-		
 		}
 		
 		//検索条件で指定した宿泊人数、宿泊日数、チェックイン日を予約フォームに入力済みにする
@@ -93,65 +95,20 @@ public class ReservationController {
 	
 	@RequestMapping("/confirmReservationForm")
 	public String reservation(@Validated ReservationForm form, BindingResult result,  Model model) {
-		
-		Plan plan = (Plan) session.getAttribute("plan");
-		
-		Plan planInfo = reservationService.checkGuestCapaAndCharge(plan.getId());
-		
-		Integer guestCapacity = planInfo.getRoom().getGuestCapacity();
-		
-		
 		if(result.hasErrors()) {
-			if(form.getNumOfGuest() != null) {
-				if(guestCapacity <= form.getNumOfGuest()) {
-					model.addAttribute("numOfGuestError", "このお部屋は"+ guestCapacity +"人部屋です");
-				}
-			}
-			
-			LocalDate today = LocalDate.now();
-			if(form.getCheckinDate() != null) {
-				if(today.compareTo(form.getCheckinDate()) >= 0) {
-					model.addAttribute("checkinDateError", "宿泊日は明日以降にしてください");
-				}
-			}
 			return "reservation";
-		}
-		if(guestCapacity != null) {
-			if(guestCapacity < form.getNumOfGuest()) {
-				model.addAttribute("numOfGuestError", "このお部屋は"+ guestCapacity +"人部屋です");
-				
-				return "reservation";
-			}
-		}
-		
-		LocalDate today = LocalDate.now();
-		if(form.getCheckinDate() != null) {
-			if(today.compareTo(form.getCheckinDate()) >= 0) {
-				model.addAttribute("checkinDateError", "宿泊日は明日以降にしてください");
-				
-				return "reservation";
-			}
 		}
 		
 		Reservation reservation = new Reservation();
-		reservation.setPlanId(plan.getId());
-		reservation.setName(form.getName());
-		reservation.setKana(form.getKana());
-		reservation.setZipcode(form.getZipcode());
-		reservation.setAddress(form.getAddress());
-		reservation.setTelephone(form.getTelephone());
-		reservation.setEmail(form.getEmail());
-		reservation.setCheckinDate(form.getCheckinDate());
-		reservation.setStayDays(form.getStayDays());
-		reservation.setNumOfGuest(form.getNumOfGuest());
-		reservation.setPayMethod(Integer.parseInt(form.getPayMethod()));
+		BeanUtils.copyProperties(form, reservation);
 		
 		//合計金額計算
+		//guestとcharge分ける
+		Plan planInfo = reservationService.checkGuestCapaAndCharge(form.getPlanId());
 		reservation.setTotalPrice(reservation.calcTotalPrice(form.getNumOfGuest(), form.getStayDays(), 
 																planInfo.getAdditionalCharge(), planInfo.getBasicCharge()));
 		
 		session.setAttribute("reservation", reservation);
-		session.setAttribute("plan", plan);
 		
 		return "reservation_confirm";
 	}
@@ -163,13 +120,12 @@ public class ReservationController {
 		//空室検索（予約フォームで日付変えた人、空室検索してない人、フォーム入力中に予約枠埋まる可能性を考慮）
 		Plan plan = (Plan) session.getAttribute("plan");
 		Integer roomId = plan.getRoomId();
-		
 		List<ReservationCalender> reservationInfo 
 		= reservationCalenderService.searchReservedRoom(form.getCheckinDate(), form.getCheckinDate().plusDays(form.getStayDays()-1), roomId);
 
 		String fullReservationMsg = null;//満室時のエラー文　
 		for(ReservationCalender day: reservationInfo) {
-			if(day.getReservedRoom() >= day.getReservableRoom()) {
+			if(day.getReservedRoom() >= day.getReservationLimit()) {
 				fullReservationMsg += day.getDate()+ "  ";
 			}
 		}

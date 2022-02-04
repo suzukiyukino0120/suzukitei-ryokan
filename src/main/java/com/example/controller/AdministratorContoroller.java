@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,7 +17,7 @@ import com.example.domain.Administrator;
 import com.example.form.AdminLoginForm;
 import com.example.form.AdministratorForm;
 import com.example.service.AdministratorService;
-import com.example.service.EmployeeService;
+import com.example.validator.RegisterAdminValidator;
 
 @Controller
 @RequestMapping("/administrator")
@@ -27,9 +29,6 @@ public class AdministratorContoroller {
 	@Autowired
 	private AdministratorService administratorService;
 
-	@Autowired
-	private EmployeeService employeeService;
-	
 	@ModelAttribute
 	public AdministratorForm setUpAdministratorForm() {
 		return new AdministratorForm();
@@ -40,6 +39,14 @@ public class AdministratorContoroller {
 		return new AdminLoginForm();
 	}
 	
+	@Autowired
+	public RegisterAdminValidator registerAdminValidator;
+	
+	@InitBinder("administratorForm")
+    public void validatorBinder(WebDataBinder binder) {
+        binder.addValidators(registerAdminValidator);
+    }
+
 	@RequestMapping("/toLogin")
 	public String toLogin() {
 		return "/administrator/login";
@@ -51,33 +58,13 @@ public class AdministratorContoroller {
 	}
 	
 	@RequestMapping("/register")
-	public String register(@Validated AdministratorForm form, BindingResult result, Model model) {
+	public String register(@Validated AdministratorForm administratorForm, BindingResult result, Model model) {
 		if(result.hasErrors()) {
-			if(!form.getPassword().equals(form.getPasswordConfirm())){
-				result.rejectValue("password", "", "ƒpƒXƒ[ƒh‚ªˆê’v‚µ‚Ä‚¢‚Ü‚¹‚ñ");
-			}
-			if(employeeService.load(form.getEmployeeId()) == null) {
-				result.rejectValue("employeeId", "", "‘¶İ‚µ‚È‚¢Ğˆõ”Ô†‚Å‚·");
-			}else if(administratorService.load(form.getEmployeeId()) != null) {
-				result.rejectValue("employeeId", "", "‚±‚ÌĞˆõ”Ô†‚ÅŠù‚É“o˜^‚³‚ê‚Ä‚¢‚Ü‚·");
-			}
 				return toRegister();
 		}
 		
-		if(!form.getPassword().equals(form.getPasswordConfirm())){
-			result.rejectValue("password", "", "ƒpƒXƒ[ƒh‚ªˆê’v‚µ‚Ä‚¢‚Ü‚¹‚ñ");
-			return toRegister();
-		}
-		if(employeeService.load(form.getEmployeeId()) == null) {
-			result.rejectValue("employeeId", "", "‘¶İ‚µ‚È‚¢Ğˆõ”Ô†‚Å‚·");
-			return toRegister();
-		}else if(administratorService.load(form.getEmployeeId()) != null) {
-			result.rejectValue("employeeId", "", "‚±‚ÌĞˆõ”Ô†‚ÅŠù‚É“o˜^‚³‚ê‚Ä‚¢‚Ü‚·");
-			return toRegister();
-		}
-		
 		Administrator administrator = new Administrator();
-		BeanUtils.copyProperties(form, administrator);
+		BeanUtils.copyProperties(administratorForm, administrator);
 		
 		administratorService.insert(administrator);
 		
@@ -97,9 +84,8 @@ public class AdministratorContoroller {
 			
 				return "/administrator/login";
 			}else {
-					session.setAttribute("administrator", administrator);
 		
-					return "/administrator/reservation_list";
+					return "redirect:/manage/toReservationList";
 			}
 	}
 	

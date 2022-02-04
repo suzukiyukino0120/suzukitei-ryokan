@@ -28,7 +28,7 @@
 			<id property="date" column="re_date"></id>
 			<result property="roomId" column="re_room_id"></result>
 			<result property="reservedRoom" column="re_reserved_room"></result>
-			<result property="reservableRoom" column="re_reservable_room"></result>
+			<result property="reservationLimit" column="re_reservation_limit"></result>
 		</collection>
 	</resultMap>
 	
@@ -51,7 +51,7 @@
 				re.date AS re_date, 
 				re.room_id AS re_room_id, 
 				re.reserved_room AS re_reserved_room, 
-				re.reservable_room AS re_reservable_room 
+				re.reservation_limit AS re_reservation_limit 
 			from plans AS p 
 			join rooms AS r on r.id = p.room_id 
 			join (select * 
@@ -70,7 +70,7 @@
 			<if test="dinner != null">
 				AND p.dinner = #{dinner} 
 			</if>
-				AND re.reservable_room > re.reserved_room 
+				AND re.reservation_limit > re.reserved_room 
 				AND r.guest_capacity >= #{numOfGuest}
 		</where>
 	</select>
@@ -128,8 +128,6 @@
 	<select id="findById" resultType="com.example.domain.Plan">
 		select * from plans where id=#{id}
 	</select>
-	
-	
 	
 	<update id="update">
 		update plans 

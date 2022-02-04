@@ -22,11 +22,15 @@
      <br>
       <!-- register form -->
       <div class="row">
+      <div
+          class="
+            col-lg-4
+            col-md-4
+          "
+        ></div>
         <div
           class="
-            col-lg-offset-3
-            col-lg-6
-            col-md-offset-2
+            col-lg-8
             col-md-8
             col-sm-10
             col-xs-12
@@ -42,16 +46,18 @@
                 <div class="form-group">
                   <label>従業員番号:</label>
                 <div th:errors="*{employeeId}" style="color:red"></div>
-                  
+                  <div class="col-md-5">
                   <input
                     type="text"
                     class="form-control"
                     th:field="*{employeeId}"
                   />
+                  </div>
                 </div>
                 <div class="form-group">
                   <label>パスワード:</label>
                 <div th:errors="*{password}" style="color:red"></div>
+                <div class="col-md-5">
                   <input
                     type="password"
                     class="form-control"
@@ -59,20 +65,22 @@
                     th:field="*{password}"
                     th:errorclass="error-input"
                   />
+                  </div>
                 </div>
                 
                 <div class="form-group">
                   <label>確認のためもう一度入力してください</label>
                 <div th:errors="*{passwordConfirm}" style="color:red"></div>
-
+				<div class="col-md-5">
                   <input
                     type="password"
                     class="form-control"
                     th:field="*{passwordConfirm}"
                     th:errorclass="error-input"
                   />
+                  </div>
                 </div>
-                
+                <br>
                 <div class="form-group">
                   <button type="submit" class="btn btn-outline-primary">登録</button>
                  <a th:href="@{/administrator/toLogin}">	
@@ -84,6 +92,12 @@
         </div>
       </div>
       </div>
+      <div
+          class="
+            col-lg-2
+            col-md-2
+          "
+        ></div>
       </div>
 <!-- jQuery読み込み -->
    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class SearchEmptyRoomForm {
+public class SearchReservationLimitForm {
 	@NotNull(message="Žn‚Ü‚è‚Ì“ú•t‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate startDate;
@@ -40,8 +40,5 @@ public class SearchEmptyRoomForm {
 		return "SearchEmptyRoomForm [startDate=" + startDate + ", endDate=" + endDate +"]";
 	}
 
-	
-	
-	
 
 }

@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Plan;
 import com.example.domain.Reservation;
+import com.example.domain.ReservationCalender;
 import com.example.repository.PlanMapper;
+import com.example.repository.ReservationCalenderMapper;
 import com.example.repository.ReservationMapper;
 
 @Service
@@ -19,6 +22,9 @@ public class ManageService {
 	
 	@Autowired
 	private ReservationMapper reservationMapper;
+	
+	@Autowired
+	private ReservationCalenderMapper reservationCalenderMapper;
 	
 	
 	public List<Plan>findAllPlan(){
@@ -53,5 +59,14 @@ public class ManageService {
 	public void cancelReservation(Integer id) {
 		reservationMapper.delete(id);
 	}
+	
+	public List<ReservationCalender> findAllReservationLimit(LocalDate startDate, LocalDate endDate){
+		return reservationCalenderMapper.findAllReservationLimit(startDate, endDate);
+	}
+	
+	public void updateReservationLimit(List<ReservationCalender> reservationCalender) {
+		reservationCalenderMapper.updateReservationLimit(reservationCalender);
+	}
+	
 	
 }
