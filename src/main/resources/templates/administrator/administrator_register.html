@@ -10,13 +10,15 @@
  </head>
  <body style="font-family:sans-serif">
  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-7">
+ <div class="container-fluid">
   <a class="navbar-brand" th:href="@{/top}"><img th:src="@{/img/logo.png}" alt="" width="150" height="70" class="d-inline-block align-text-top"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
+<div class="float-end">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	<a th:href="@{/administrator/toLogin}"> <button class="btn btn-outline-warning" type="submit" style="font-family:serif">ログイン</button></a>
+	<a th:href="@{/administrator/toLogin}"><button class="btn btn-sm btn-success" type="submit" style="font-family:serif">ログイン</button></a>
+  </div></div>
   </div>
 </nav>
      <br>

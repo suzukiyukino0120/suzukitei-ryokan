@@ -121,70 +121,70 @@
 				  			<td colspan="2" align="center">
 				  				<div th:if="${day == null}" th:text="''"></div>
 				  				<div th:if="${day != null}" th:text="${day.date.getDayOfMonth()}"></div>
-				  				<div th:if="${day != null && day.empty == '〇'}">
+				  				<div th:if="${day != null && day.state == '〇'}">
 			  	  					<form th:action="@{/reservation/toReservation}" method="post">
 				  	  				<input type="hidden" name="checkinDate" th:value="${day.date}"> 
 				  	  				<input type="hidden" name="planId" th:value="${session.plan.id}">
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
-				  	  			<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>	
+				  	  			<div th:if="${day != null && day.state == '×'}" th:text="${day.state}"></div>	
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==6}">
 				  			<td colspan="2" align="center">
 				  			<div th:if="${day == null}" th:text="''"></div>
 				  				<div th:if="${day != null}" th:text="${day.date.getDayOfMonth()}"></div>
-				  				<div th:if="${day != null && day.empty == '〇'}">
+				  				<div th:if="${day != null && day.state == '〇'}">
 			  	  					<form th:action="@{/reservation/toReservation}" method="post">
 				  	  				<input type="hidden" name="checkinDate" th:value="${day.date}"> 
 				  	  				<input type="hidden" name="planId" th:value="${session.plan.id}">
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
-				  	  				<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
+				  	  				<div th:if="${day != null && day.state == '×'}" th:text="${day.state}"></div>
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==5}">
 				  			<td colspan="2" align="center">
 				  				<div th:if="${day == null}" th:text="''"></div>
 				  				<div th:if="${day != null}" th:text="${day.date.getDayOfMonth()}"></div>
-								<div th:if="${day != null && day.empty == '〇'}">
+								<div th:if="${day != null && day.state == '〇'}">
 			  	  					<form th:action="@{/reservation/toReservation}" method="post">
 				  	  				<input type="hidden" name="checkinDate" th:value="${day.date}"> 
 				  	  				<input type="hidden" name="planId" th:value="${session.plan.id}">
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
-				  	  				<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
+				  	  				<div th:if="${day != null && day.state == '×'}" th:text="${day.state}"></div>
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==4}">
 				  			<td colspan="2" align="center">
 				  				<div th:if="${day == null}" th:text="''"></div>
 				  				<div th:if="${day != null}" th:text="${day.date.getDayOfMonth()}"></div>
-				  				<div th:if="${day != null && day.empty == '〇'}">
+				  				<div th:if="${day != null && day.state == '〇'}">
 			  	  					<form th:action="@{/reservation/toReservation}" method="post">
 				  	  				<input type="hidden" name="checkinDate" th:value="${day.date}"> 
 				  	  				<input type="hidden" name="planId" th:value="${session.plan.id}">
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
-		  	  					<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
+		  	  					<div th:if="${day != null && day.state == '×'}" th:text="${day.state}"></div>
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==3}">
 				  			<td colspan="2" align="center">
 				  				<div th:if="${day == null}" th:text="''"></div>
 				  				<div th:if="${day != null}" th:text="${day.date.getDayOfMonth()}"></div>
-				  				<div th:if="${day != null && day.empty == '〇'}">
+				  				<div th:if="${day != null && day.state == '〇'}">
 			  	  					<form th:action="@{/reservation/toReservation}" method="post">
 				  	  				<input type="hidden" name="checkinDate" th:value="${day.date}"> 
 				  	  				<input type="hidden" name="planId" th:value="${session.plan.id}">
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
-		  	  					<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
+		  	  					<div th:if="${day != null && day.state == '×'}" th:text="${day.state}"></div>
 				  				
 				  			</td>
 				  		</th:block>
@@ -192,28 +192,28 @@
 				  			<td colspan="2" align="center">
 				  			<div th:if="${day == null}" th:text="''"></div>
 				  				<div th:if="${day != null}" th:text="${day.date.getDayOfMonth()}"></div>
-				  				<div th:if="${day != null && day.empty == '〇'}">
+				  				<div th:if="${day != null && day.state == '〇'}">
 			  	  					<form th:action="@{/reservation/toReservation}" method="post">
 				  	  				<input type="hidden" name="checkinDate" th:value="${day.date}"> 
 				  	  				<input type="hidden" name="planId" th:value="${session.plan.id}">
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
-		  	  					<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
+		  	  					<div th:if="${day != null && day.state == '×'}" th:text="${day.state}"></div>
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==1}">
 				  			<td colspan="2" align="center">
 				  				<div th:if="${day == null}" th:text="''"></div>
 				  				<div th:if="${day != null}" th:text="${day.date.getDayOfMonth()}"></div>
-				  				<div th:if="${day != null && day.empty == '〇'}">
+				  				<div th:if="${day != null && day.state == '〇'}">
 			  	  					<form th:action="@{/reservation/toReservation}" method="post">
 				  	  				<input type="hidden" name="checkinDate" th:value="${day.date}"> 
 				  	  				<input type="hidden" name="planId" th:value="${session.plan.id}">
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
-		  	  					<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
+		  	  					<div th:if="${day != null && day.state == '×'}" th:text="${day.state}"></div>
 				  			</td>
 				  		</th:block>
 				 </th:block>

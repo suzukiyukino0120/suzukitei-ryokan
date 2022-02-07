@@ -29,7 +29,9 @@ public interface PlanMapper {
 			@Param("planId") Integer planId, 
 			@Param("numOfGuest") Integer numOfGuest);
 	
-	public Plan findGuestCapaAndCharge(Integer planId);
+	public Plan findCharge(Integer id);
+	
+	public Plan findGuestCapacity(Integer id);
 	
 	public List<Plan> findAll();
 	
@@ -42,19 +44,4 @@ public interface PlanMapper {
 	public void delete(Integer planId);
 	
 	
-	
-	
-	/*
-	public List<Room> findPlanByDate(
-			@Param("smoking") Integer smoking, 
-			@Param("bathroom") Integer bathroom, 
-			@Param("breakfast") Integer breakfast, 
-			@Param("dinner") Integer dinner, 
-			@Param("date") LocalDate date,
-			@Param("stayDays") Integer stayDays);
-	
-	public List<Room> findRoom();
-	
-	*/
-
 }

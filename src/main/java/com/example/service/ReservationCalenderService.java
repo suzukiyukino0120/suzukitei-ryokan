@@ -23,19 +23,19 @@ public class ReservationCalenderService {
 		List<ReservationCalender> reservationCalender 
 		= reservationCalenderMapper.findReservableRoomById(startDate, endDate, roomId);
 		
+		//–¾“úˆÈ~‚Ì‹óºó‹µ‚ğƒZƒbƒg
 		LocalDate tomorrow = LocalDate.now().plusDays(1);
 		for(ReservationCalender day: reservationCalender) {
 			if(day.getDate().isBefore(tomorrow)) {
-				day.setEmpty(" ");
+				day.setState(" ");
 			}else {
 				if(day.getReservedRoom() >= day.getReservationLimit()) {
-					day.setEmpty("~");
+					day.setState("~");
 				}else {
-					day.setEmpty("Z");
+					day.setState("Z");
 				}
 			}
 		}
-		System.out.println(reservationCalender);
 		
 		//ƒJƒŒƒ“ƒ_[•\¦‚Ì‚½‚ßŒ‰‚ß‚Ì‹ó”’‚ğ‘}“ü
 		int beforeBlank= startDate.getDayOfWeek().getValue() - 1;

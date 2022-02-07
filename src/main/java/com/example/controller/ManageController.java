@@ -115,9 +115,8 @@ public class ManageController {
 		
 		//編集フォームに現在の登録内容が入力済になるようにする
 		UpdatePlanForm updatePlanForm = new UpdatePlanForm();
-		
 		BeanUtils.copyProperties(plan, updatePlanForm);
-		updatePlanForm.setNowImage(0);
+		updatePlanForm.setNowImage("notChange");
 		
 		model.addAttribute("updatePlanForm", updatePlanForm);
 		session.setAttribute("image", plan.getImage());
@@ -131,7 +130,7 @@ public class ManageController {
 		if(result.hasErrors()) {
 		System.out.println(result);
 			return "manage/update_plan";
-	}
+		}
 				
 		Plan plan = new Plan();
 		plan.setId(updatePlanForm.getId());
@@ -143,12 +142,10 @@ public class ManageController {
 		plan.setAdditionalCharge(updatePlanForm.getAdditionalCharge());
 		plan.setComment(updatePlanForm.getComment());
 		
-		if(updatePlanForm.getNowImage() == 0) {
+		if("notChange".equals(updatePlanForm.getNowImage())) {
 			plan.setImage((String) session.getAttribute("image"));
 		}else {
-			
-		String imageName = manageService.strageImage(updatePlanForm.getImage());
-			
+			String imageName = manageService.strageImage(updatePlanForm.getImage());
 			plan.setImage(imageName);
 		}
 		
@@ -241,6 +238,9 @@ public class ManageController {
 	
 	@RequestMapping("/updateReservationLimit")
 	public String updateReservationLimit(@Validated UpdateReservationLimitForm updateReservationLimitForm, BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			return"/manage/reservable_room_update";
+		}
 		
 		List<ReservationCalender> reservationCalender = new ArrayList<>();
 		

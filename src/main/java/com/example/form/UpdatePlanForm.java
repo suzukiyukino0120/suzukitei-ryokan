@@ -32,15 +32,15 @@ public class UpdatePlanForm {
 	
 	private MultipartFile image;
 	
-	@NotNull(message="‚Ç‚¿‚ç‚©‚ð‘I‘ð‚µ‚Ä‚­‚¾‚³‚¢")
-	private Integer nowImage;
+	@NotBlank(message="‚Ç‚¿‚ç‚©‚ð‘I‘ð‚µ‚Ä‚­‚¾‚³‚¢")
+	private String nowImage;
 	
 
-	public Integer getNowImage() {
+	public String getNowImage() {
 		return nowImage;
 	}
 
-	public void setNowImage(Integer nowImage) {
+	public void setNowImage(String nowImage) {
 		this.nowImage = nowImage;
 	}
 

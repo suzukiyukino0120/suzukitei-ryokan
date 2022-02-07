@@ -111,14 +111,18 @@
 		</where>
 	</select>
 	
-	<select id="findGuestCapaAndCharge" resultMap="planMap">
-		select r.id AS r_id, 
-			   r.guest_capacity AS r_guest_capacity, 
-			   p.basic_charge AS p_basic_charge, 
-			   p.additional_charge AS p_additional_charge  
+	<select id="findCharge" resultMap="planMap">
+		select p.basic_charge AS p_basic_charge, 
+			   p.additional_charge AS p_additional_charge 
+		from plans AS p 
+		where p.id = #{id}
+	</select>
+	
+	<select id="findGuestCapacity" resultMap="planMap">
+		select r.guest_capacity AS r_guest_capacity 
 		from plans AS p 
 		join rooms AS r on r.id = p.room_id 
-		where p.id = #{planId}
+		where p.id = #{id}
 	</select>
 	
 	<select id="findAll" resultType="com.example.domain.Plan">

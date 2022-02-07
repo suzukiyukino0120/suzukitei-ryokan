@@ -2,15 +2,22 @@ package com.example.form;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class UpdateReservationLimitForm {
+	
+	@NotNull(message="•”‰®1‚Ì—\–ñãŒÀ”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
 	private Integer limitOfRoom1;
 	
+	@NotNull(message="•”‰®2‚Ì—\–ñãŒÀ”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
 	private Integer limitOfRoom2;
 	
+	@NotNull(message="•”‰®3‚Ì—\–ñãŒÀ”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
 	private Integer limitOfRoom3;
 	
+	@NotNull(message="•”‰®4‚Ì—\–ñãŒÀ”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
 	private Integer limitOfRoom4;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

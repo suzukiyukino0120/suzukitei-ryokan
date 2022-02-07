@@ -7,13 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.example.domain.Administrator;
 import com.example.domain.Plan;
-import com.example.form.AdminLoginForm;
-import com.example.form.AdministratorForm;
 import com.example.form.ReservationForm;
-import com.example.service.AdministratorService;
-import com.example.service.EmployeeService;
 import com.example.service.ReservationService;
 
 @Component
@@ -33,15 +28,13 @@ public class ReservationValidator implements Validator{
 	    public void validate(Object form, Errors errors) {
 		ReservationForm validationForm = (ReservationForm)form;
 		
-		Plan planInfo = reservationService.checkGuestCapaAndCharge(validationForm.getPlanId());
+		Plan planInfo = reservationService.checkGuestCapacity(validationForm.getPlanId());
 		
 		Integer guestCapacity = planInfo.getRoom().getGuestCapacity();
 		
-		if(validationForm.getNumOfGuest() != null) {
 			if(guestCapacity <= validationForm.getNumOfGuest()) {
 				errors.rejectValue("numOfGuest", "", "‚±‚Ì‚¨•”‰®‚Í"+ guestCapacity +"l•”‰®‚Å‚·");
 			}
-		}
 		
 		LocalDate today = LocalDate.now();
 		if(validationForm.getCheckinDate() != null) {

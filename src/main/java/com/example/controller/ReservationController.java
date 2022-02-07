@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Reservation;
-import com.example.domain.ReservationCalender;
 import com.example.domain.Plan;
 import com.example.form.ReservationForm;
 import com.example.service.ReservationCalenderService;
@@ -98,10 +97,8 @@ public class ReservationController {
 		BeanUtils.copyProperties(form, reservation);
 		
 		//合計金額計算
-		//guestとcharge分ける
-		Plan planInfo = reservationService.checkGuestCapaAndCharge(form.getPlanId());
-		reservation.setTotalPrice(reservation.calcTotalPrice(form.getNumOfGuest(), form.getStayDays(), 
-																planInfo.getAdditionalCharge(), planInfo.getBasicCharge()));
+		Plan chargeInfo = reservationService.checkCharge(form.getPlanId());
+		reservation.setTotalPrice(reservation.calcTotalPrice(form.getNumOfGuest(), form.getStayDays(), chargeInfo.getAdditionalCharge(), chargeInfo.getBasicCharge()));
 		
 		session.setAttribute("reservation", reservation);
 		
@@ -115,16 +112,11 @@ public class ReservationController {
 		//空室検索（予約フォームで日付変えた人、空室検索してない人、フォーム入力中に予約枠埋まる可能性を考慮）
 		Plan plan = (Plan) session.getAttribute("plan");
 		Integer roomId = plan.getRoomId();
-		List<ReservationCalender> reservationInfo 
-		= reservationCalenderService.searchReservedRoom(form.getCheckinDate(), form.getCheckinDate().plusDays(form.getStayDays()-1), roomId);
-
-		String fullReservationMsg = null;//満室時のエラー文　
-		for(ReservationCalender day: reservationInfo) {
-			if(day.getReservedRoom() >= day.getReservationLimit()) {
-				fullReservationMsg += day.getDate()+ "  ";
-			}
-		}
-		if(fullReservationMsg != null) {
+		String fullReservationMsg
+		= reservationService.checkFullReservation(form.getCheckinDate(), form.getCheckinDate().plusDays(form.getStayDays()-1), roomId);
+		
+		//満室の時エラ―ページ表示
+		if(!"".equals(fullReservationMsg)) {
 			model.addAttribute("fullReservationMsg", fullReservationMsg);
 			return "full_reservation";
 		}

@@ -12,7 +12,7 @@ public class ReservationCalender {
 	
 	private Integer reservationLimit;
 	
-	private String empty;
+	private String state;
 
 	public LocalDate getDate() {
 		return date;
@@ -48,18 +48,18 @@ public class ReservationCalender {
 		this.reservationLimit = reservationLimit;
 	}
 
-	public String getEmpty() {
-		return empty;
+	public String getState() {
+		return state;
 	}
 
-	public void setEmpty(String empty) {
-		this.empty = empty;
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	@Override
 	public String toString() {
 		return "ReservationCalender [date=" + date + ", roomId=" + roomId + ", reservedRoom=" + reservedRoom
-				+ ", reservationLimit=" + reservationLimit + ", empty=" + empty + "]";
+				+ ", reservationLimit=" + reservationLimit + ", state=" + state + "]";
 	}
 
 

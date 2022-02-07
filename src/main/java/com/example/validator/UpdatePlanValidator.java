@@ -19,10 +19,10 @@ public class UpdatePlanValidator implements Validator{
 	@Override
 	    public void validate(Object form, Errors errors) {
 	    	UpdatePlanForm validationForm = (UpdatePlanForm)form;
-	        Integer nowImage = validationForm.getNowImage();
+	    	String nowImage = validationForm.getNowImage();
 	        MultipartFile image = validationForm.getImage();
 	        
-	        if(nowImage == 1) {
+	        if("change".equals(nowImage)) {
 				if(image.isEmpty()) {
 					errors.rejectValue("image","", "イメージを変更する場合はイメージを添付してください。");
 				}
