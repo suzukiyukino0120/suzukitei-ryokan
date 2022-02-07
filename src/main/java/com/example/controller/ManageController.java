@@ -1,7 +1,5 @@
 package com.example.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +17,11 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.domain.Plan;
 import com.example.domain.Reservation;
 import com.example.domain.ReservationCalender;
 import com.example.form.CreatePlanForm;
-import com.example.form.SearchReservableRoomForm;
 import com.example.form.SearchReservationForm;
 import com.example.form.SearchReservationLimitForm;
 import com.example.form.UpdatePlanForm;
@@ -96,7 +92,6 @@ public class ManageController {
 		}
 		
 		Plan plan = new Plan();
-		
 		plan.setName(createPlanForm.getName());
 		plan.setRoomId(createPlanForm.getRoomId());
 		plan.setBreakfast(createPlanForm.getBreakfast());
@@ -105,7 +100,7 @@ public class ManageController {
 		plan.setAdditionalCharge(createPlanForm.getAdditionalCharge());
 		plan.setComment(createPlanForm.getComment());
 
-		String imageName = strageImage(createPlanForm.getImage());
+		String imageName = manageService.strageImage(createPlanForm.getImage());
 		plan.setImage(imageName);
 		
 		manageService.insertPlan(plan);
@@ -120,14 +115,8 @@ public class ManageController {
 		
 		//編集フォームに現在の登録内容が入力済になるようにする
 		UpdatePlanForm updatePlanForm = new UpdatePlanForm();
-		updatePlanForm.setId(plan.getId());
-		updatePlanForm.setName(plan.getName());
-		updatePlanForm.setRoomId(plan.getRoomId());
-		updatePlanForm.setBreakfast(plan.getBreakfast());
-		updatePlanForm.setDinner(plan.getDinner());
-		updatePlanForm.setBasicCharge(plan.getBasicCharge());
-		updatePlanForm.setAdditionalCharge(plan.getAdditionalCharge());
-		updatePlanForm.setComment(plan.getComment());
+		
+		BeanUtils.copyProperties(plan, updatePlanForm);
 		updatePlanForm.setNowImage(0);
 		
 		model.addAttribute("updatePlanForm", updatePlanForm);
@@ -137,22 +126,6 @@ public class ManageController {
 	}
 	
 	
-//	画像の名前を取得・ファイルに保存するメソッド
-	public String strageImage(MultipartFile image) {
-		String imageName = image.getOriginalFilename();
-		
-		File filepath = new File("src/main/resources/static/img/plans/"+imageName);
-		try {
-			byte[] bytes = image.getBytes();
-			FileOutputStream stream = new FileOutputStream(filepath.toString());
-			stream.write(bytes);
-			stream.close();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return imageName;
-	}
-	
 	@RequestMapping("/updatePlan")
 	public String updatePlan(@Validated UpdatePlanForm updatePlanForm, BindingResult result, Model model) {
 		if(result.hasErrors()) {
@@ -161,8 +134,6 @@ public class ManageController {
 	}
 				
 		Plan plan = new Plan();
-		System.out.println(updatePlanForm);
-		
 		plan.setId(updatePlanForm.getId());
 		plan.setName(updatePlanForm.getName());
 		plan.setRoomId(updatePlanForm.getRoomId());
@@ -176,12 +147,11 @@ public class ManageController {
 			plan.setImage((String) session.getAttribute("image"));
 		}else {
 			
-		String imageName = strageImage(updatePlanForm.getImage());
+		String imageName = manageService.strageImage(updatePlanForm.getImage());
 			
 			plan.setImage(imageName);
 		}
 		
-		System.out.println(plan);
 		manageService.updatePlan(plan);
 		
 		return"redirect:/manage/toRegisteredPlanList";
@@ -206,7 +176,7 @@ public class ManageController {
 	@RequestMapping("/toReservationList")
 	public String toReservationList(Model model) {
 		
-		//デフォルトで今日の予約を表示
+		//デフォルトで今日宿泊中の予約を表示
 		Reservation reservation = new Reservation();
 		reservation.setCheckinDate(LocalDate.now());
 	
@@ -219,10 +189,7 @@ public class ManageController {
 	public String searchReservation(SearchReservationForm searchReservationForm, Model model) {
 		
 		Reservation reservation = new Reservation();
-		reservation.setName(searchReservationForm.getName());
-		reservation.setKana(searchReservationForm.getKana());
-		reservation.setCheckinDate(searchReservationForm.getDate());
-		reservation.setPayMethod(searchReservationForm.getPayMethod());
+		BeanUtils.copyProperties(searchReservationForm, reservation);
 		
 		model.addAttribute("reservationList", manageService.find(reservation));
 		
@@ -301,7 +268,6 @@ public class ManageController {
 		calenderOfRoom4.setReservationLimit(updateReservationLimitForm.getLimitOfRoom4());
 		reservationCalender.add(calenderOfRoom4);
 		
-		System.out.println(reservationCalender);
 		
 		manageService.updateReservationLimit(reservationCalender);
 		

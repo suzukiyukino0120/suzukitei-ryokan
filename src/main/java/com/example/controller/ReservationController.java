@@ -16,20 +16,15 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.example.domain.Reservation;
 import com.example.domain.ReservationCalender;
 import com.example.domain.Plan;
-import com.example.domain.Room;
 import com.example.form.ReservationForm;
 import com.example.service.ReservationCalenderService;
 import com.example.service.ReservationService;
 import com.example.validator.ReservationValidator;
-import com.example.validator.SearchPlanValidator;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 
 @Controller
 @RequestMapping("/reservation")

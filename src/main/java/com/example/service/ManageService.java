@@ -1,11 +1,14 @@
 package com.example.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.domain.Plan;
 import com.example.domain.Reservation;
@@ -66,6 +69,22 @@ public class ManageService {
 	
 	public void updateReservationLimit(List<ReservationCalender> reservationCalender) {
 		reservationCalenderMapper.updateReservationLimit(reservationCalender);
+	}
+	
+//	画像の名前を取得・ファイルに保存するメソッド
+	public String strageImage(MultipartFile image) {
+		String imageName = image.getOriginalFilename();
+		
+		File filepath = new File("src/main/resources/static/img/plans/"+imageName);
+		try {
+			byte[] bytes = image.getBytes();
+			FileOutputStream stream = new FileOutputStream(filepath.toString());
+			stream.write(bytes);
+			stream.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return imageName;
 	}
 	
 	

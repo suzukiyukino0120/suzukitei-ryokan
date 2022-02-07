@@ -17,6 +17,7 @@ import com.example.domain.Administrator;
 import com.example.form.AdminLoginForm;
 import com.example.form.AdministratorForm;
 import com.example.service.AdministratorService;
+import com.example.validator.LoginAdminValidator;
 import com.example.validator.RegisterAdminValidator;
 
 @Controller
@@ -43,9 +44,17 @@ public class AdministratorContoroller {
 	public RegisterAdminValidator registerAdminValidator;
 	
 	@InitBinder("administratorForm")
-    public void validatorBinder(WebDataBinder binder) {
+    public void registerValidatorBinder(WebDataBinder binder) {
         binder.addValidators(registerAdminValidator);
     }
+	
+	@Autowired
+	public LoginAdminValidator loginAdminValidator;
+	
+	@InitBinder("adminLoginForm")
+	public void loginValidatorBinder(WebDataBinder binder) {
+		binder.addValidators(loginAdminValidator);
+	}
 
 	@RequestMapping("/toLogin")
 	public String toLogin() {
@@ -76,24 +85,14 @@ public class AdministratorContoroller {
 		if(result.hasErrors()) {
 			return "/administrator/login";
 		}
+
+		return "redirect:/manage/toReservationList";
 		
-		Administrator administrator = administratorService.findByIdAndPass(form.getEmployeeId(), form.getPassword());
-			
-		if(administrator == null) {
-				model.addAttribute("loginError", "社員番号かパスワードが間違っています");
-			
-				return "/administrator/login";
-			}else {
-		
-					return "redirect:/manage/toReservationList";
-			}
 	}
-	
-	
 	
 	@RequestMapping("/logout")
 	public String logout() {
-		session.invalidate();		
+//		session.invalidate();		
 		return "/administrator/login";
 	}
 	

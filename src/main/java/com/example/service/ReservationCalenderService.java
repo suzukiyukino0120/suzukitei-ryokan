@@ -35,6 +35,7 @@ public class ReservationCalenderService {
 				}
 			}
 		}
+		System.out.println(reservationCalender);
 		
 		//カレンダー表示のため月初めの空白を挿入
 		int beforeBlank= startDate.getDayOfWeek().getValue() - 1;

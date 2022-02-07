@@ -128,6 +128,7 @@
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
+				  	  			<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>	
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==6}">
@@ -141,6 +142,7 @@
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
+				  	  				<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==5}">
@@ -154,6 +156,7 @@
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
+				  	  				<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==4}">
@@ -167,6 +170,7 @@
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
+		  	  					<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==3}">
@@ -180,6 +184,7 @@
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
+		  	  					<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
 				  				
 				  			</td>
 				  		</th:block>
@@ -194,6 +199,7 @@
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
+		  	  					<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
 				  			</td>
 				  		</th:block>
 				  		<th:block th:if="${status.index%7==1}">
@@ -207,6 +213,7 @@
 									<button class="btn btn-sm btn-link" type="submit" style="font-family:serif" th:text="〇"></button>
 				  	  				</form>
 		  	  					</div>
+		  	  					<div th:if="${day != null && day.empty == '×'}" th:text="${day.empty}"></div>
 				  			</td>
 				  		</th:block>
 				 </th:block>

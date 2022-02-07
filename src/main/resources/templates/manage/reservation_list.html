@@ -94,7 +94,7 @@
       <th scope="col">予約ID</th>
       <th scope="col">名前</th>
       <th scope="col">チェックイン日</th>
-      <th scope="col">宿泊日数</th>
+      <th scope="col">チェックアウト日</th>
       <th scope="col">宿泊プラン</th>
       <th scope="col">料金</th>
       <th scope="col">支払</th>
@@ -106,7 +106,7 @@
       <td><div th:text="${reservation.id}"></div></td>
       <td><a th:href="@{/manage/toReservationDetail?id=}+${reservation.id}" th:text="${reservation.name}"></a></td>
       <td><div th:text="${reservation.checkinDate}"></div></td>
-      <td><div th:text="${reservation.stayDays}"></div></td>
+      <td><div th:text="${reservation.checkinDate.plusDays(reservation.stayDays)}"></div></td>
       <td><div th:text="${reservation.planId}"></div></td>
       <td><div th:text="${reservation.totalPrice}"></div></td>
       <td><div th:if="${reservation.payMethod == 1}" th:text="済"></div>

@@ -27,7 +27,7 @@ public class UpdatePlanValidator implements Validator{
 					errors.rejectValue("image","", "イメージを変更する場合はイメージを添付してください。");
 				}
 			}else {
-				if(image != null) {
+				if(!image.isEmpty()) {
 					errors.rejectValue("image","", "イメージを変更しない場合はイメージを添付しないでください");
 				}
 			}

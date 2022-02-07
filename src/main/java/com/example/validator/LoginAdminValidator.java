@@ -7,15 +7,11 @@ import org.springframework.validation.Validator;
 
 import com.example.domain.Administrator;
 import com.example.form.AdminLoginForm;
-import com.example.form.AdministratorForm;
 import com.example.service.AdministratorService;
-import com.example.service.EmployeeService;
 
 @Component
 public class LoginAdminValidator implements Validator{
 	
-	@Autowired
-	private EmployeeService employeeService;	
 	
 	@Autowired
 	private AdministratorService administratorService;
@@ -27,7 +23,7 @@ public class LoginAdminValidator implements Validator{
     }
 	
 	@Override
-	    public void validate(Object form, Errors errors) {
+	public void validate(Object form, Errors errors) {
 		AdminLoginForm validationForm = (AdminLoginForm)form;
 		
 		Administrator administrator = administratorService.findByIdAndPass(validationForm.getEmployeeId(), validationForm.getPassword());
@@ -35,7 +31,7 @@ public class LoginAdminValidator implements Validator{
 		if(administrator == null) {
 			errors.rejectValue("employeeId", "", "社員番号かパスワードが間違っています");
 		}
-	    }
+	}
 
 
 
