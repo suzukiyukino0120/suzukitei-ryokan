@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 public class SearchReservableRoomForm {
 	
-	@NotBlank(message="”NŒ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotBlank(message="å¹´æœˆã‚’é¸æŠã—ã¦ãã ã•ã„")
 	 String month;
 
 	public String getMonth() {

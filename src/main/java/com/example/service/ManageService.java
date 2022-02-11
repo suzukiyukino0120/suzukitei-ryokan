@@ -71,7 +71,7 @@ public class ManageService {
 		reservationCalenderMapper.updateReservationLimit(reservationCalender);
 	}
 	
-//	�摜�̖��O���擾�E�t�@�C���ɕۑ����郁�\�b�h
+//	画像の名前を取得・ファイルに保存するメソッド
 	public String strageImage(MultipartFile image) {
 		String imageName = image.getOriginalFilename();
 		

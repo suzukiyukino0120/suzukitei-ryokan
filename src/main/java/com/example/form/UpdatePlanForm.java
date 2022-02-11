@@ -9,30 +9,30 @@ import org.springframework.web.multipart.MultipartFile;
 public class UpdatePlanForm {
 	private Integer id;
 	
-	@NotBlank(message="ƒvƒ‰ƒ“–¼‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotBlank(message="ãƒ—ãƒ©ãƒ³åã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private String name;
 
-	@NotNull(message="•”‰®ƒ^ƒCƒv‚ð‘I‘ð‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="éƒ¨å±‹ã‚¿ã‚¤ãƒ—ã‚’é¸æŠžã—ã¦ãã ã•ã„")
 	private Integer roomId;
 	
-	@NotNull(message="’©H‚Ì—L–³‚ð‘I‘ð‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="æœé£Ÿã®æœ‰ç„¡ã‚’é¸æŠžã—ã¦ãã ã•ã„")
 	private Integer breakfast;
 	
-	@NotNull(message="—[H‚Ì—L–³‚ð‘I‘ð‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="å¤•é£Ÿã®æœ‰ç„¡ã‚’é¸æŠžã—ã¦ãã ã•ã„")
 	private Integer dinner;
 	
-	@NotNull(message="Šî–{—¿‹à‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="åŸºæœ¬æ–™é‡‘ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer basicCharge;
 	
-	@NotNull(message="’Ç‰Á—¿‹à‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="è¿½åŠ æ–™é‡‘ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer additionalCharge;
 	
-	@NotBlank(message="ƒvƒ‰ƒ“à–¾‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotBlank(message="ãƒ—ãƒ©ãƒ³èª¬æ˜Žã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private String comment;
 	
 	private MultipartFile image;
 	
-	@NotBlank(message="‚Ç‚¿‚ç‚©‚ð‘I‘ð‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotBlank(message="ã©ã¡ã‚‰ã‹ã‚’é¸æŠžã—ã¦ãã ã•ã„")
 	private String nowImage;
 	
 

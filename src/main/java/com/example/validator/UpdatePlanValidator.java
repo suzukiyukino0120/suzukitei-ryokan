@@ -24,11 +24,11 @@ public class UpdatePlanValidator implements Validator{
 	        
 	        if("change".equals(nowImage)) {
 				if(image.isEmpty()) {
-					errors.rejectValue("image","", "ƒCƒ[ƒW‚ğ•ÏX‚·‚éê‡‚ÍƒCƒ[ƒW‚ğ“Y•t‚µ‚Ä‚­‚¾‚³‚¢B");
+					errors.rejectValue("image","", "ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’å¤‰æ›´ã™ã‚‹å ´åˆã¯ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’æ·»ä»˜ã—ã¦ãã ã•ã„ã€‚");
 				}
 			}else {
 				if(!image.isEmpty()) {
-					errors.rejectValue("image","", "ƒCƒ[ƒW‚ğ•ÏX‚µ‚È‚¢ê‡‚ÍƒCƒ[ƒW‚ğ“Y•t‚µ‚È‚¢‚Å‚­‚¾‚³‚¢");
+					errors.rejectValue("image","", "ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’å¤‰æ›´ã—ãªã„å ´åˆã¯ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’æ·»ä»˜ã—ãªã„ã§ãã ã•ã„");
 				}
 			}
 	    }

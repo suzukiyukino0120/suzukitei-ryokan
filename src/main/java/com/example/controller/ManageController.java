@@ -113,7 +113,7 @@ public class ManageController {
 		
 		Plan plan = manageService.findPlanById(id);
 		
-		//�ҏW�t�H�[���Ɍ��݂̓o�^���e�����͍ςɂȂ�悤�ɂ���
+		//編集フォームに現在の登録内容が入力済になるようにする
 		UpdatePlanForm updatePlanForm = new UpdatePlanForm();
 		BeanUtils.copyProperties(plan, updatePlanForm);
 		updatePlanForm.setNowImage("notChange");
@@ -159,7 +159,7 @@ public class ManageController {
 		
 		model.addAttribute("plan", manageService.findPlanById(id));
 		
-		return"/manage/delete_plan";
+		return"manage/delete_plan";
 	}
 	
 	@RequestMapping("/deletePlan")
@@ -173,13 +173,13 @@ public class ManageController {
 	@RequestMapping("/toReservationList")
 	public String toReservationList(Model model) {
 		
-		//�f�t�H���g�ō����h�����̗\���\��
+		//デフォルトで今日宿泊中の予約を表示
 		Reservation reservation = new Reservation();
 		reservation.setCheckinDate(LocalDate.now());
 	
 		model.addAttribute("reservationList", manageService.find(reservation));
 		
-		return "/manage/reservation_list";
+		return "manage/reservation_list";
 	}
 	
 	@RequestMapping("/searchReservation")
@@ -190,14 +190,16 @@ public class ManageController {
 		
 		model.addAttribute("reservationList", manageService.find(reservation));
 		
-		return "/manage/reservation_list";
+		
+		
+		return "manage/reservation_list";
 	}
 	
 	@RequestMapping("/toReservationDetail")
 	public String toReservationDetail(Integer id, Model model) {
 		model.addAttribute("reservation", manageService.findReservationById(id));
 		
-		return "/manage/reservation_detail";
+		return "manage/reservation_detail";
 	}
 	
 	@RequestMapping("/cancelReservation")
@@ -209,17 +211,18 @@ public class ManageController {
 
 	@RequestMapping("/toReservationLimit")
 	public String toReservationLimit() {
-		return"/manage/reservable_room_manage";
+		return"manage/reservable_room_manage";
 	}
 	
 	@RequestMapping("/searchReservationLimit")
 	public String searchReservationLimit(@Validated SearchReservationLimitForm searchReservationLimitForm, BindingResult result,  Model model) {
 		if(result.hasErrors()) {
-			return "/manage/reservable_room_manage";
+			return "manage/reservable_room_manage";
 		}
 		model.addAttribute("reservationCalender", manageService.findAllReservationLimit(searchReservationLimitForm.getStartDate(), searchReservationLimitForm.getEndDate()));
 		
-		return"/manage/reservable_room_manage";
+		
+		return"manage/reservable_room_manage";
 	}
 	
 	@RequestMapping("/toUpdateReservationLimit")
@@ -233,13 +236,13 @@ public class ManageController {
 		updateReservationLimitForm.setLimitOfRoom4(reservationCalender.get(3).getReservationLimit());
 		model.addAttribute("updateReservationLimitForm", updateReservationLimitForm);
 		
-		return"/manage/reservable_room_update";
+		return"manage/reservable_room_update";
 	}
 	
 	@RequestMapping("/updateReservationLimit")
 	public String updateReservationLimit(@Validated UpdateReservationLimitForm updateReservationLimitForm, BindingResult result, Model model) {
 		if(result.hasErrors()) {
-			return"/manage/reservable_room_update";
+			return"manage/reservable_room_update";
 		}
 		
 		List<ReservationCalender> reservationCalender = new ArrayList<>();
@@ -271,7 +274,7 @@ public class ManageController {
 		
 		manageService.updateReservationLimit(reservationCalender);
 		
-		return"/manage/reservable_room_manage";
+		return"manage/reservable_room_manage";
 		
 	}
 }

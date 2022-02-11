@@ -44,13 +44,13 @@ public class ReservationService {
 		List<ReservationCalender> reservationCalender 
 		= reservationCalenderMapper.findReservableRoomById(startDate, endDate, roomId);
 		
-		String fullReservationMsg = "";//–žŽºŽž‚ÌƒGƒ‰[•¶@
+		String fullReservationMsg = "";//æº€å®¤æ™‚ã®ã‚¨ãƒ©ãƒ¼æ–‡ã€€
 		for(ReservationCalender day: reservationCalender) {
 			if(day.getReservedRoom() >= day.getReservationLimit()) {
 				fullReservationMsg += day.getDate()+ "  ";
 			}
 		}
-		//–žŽº‚ª‚ ‚é‚Æ‚«‚¾‚¯ƒGƒ‰[•¶•Ô‚·
+		//æº€å®¤ãŒã‚ã‚‹ã¨ãã ã‘ã‚¨ãƒ©ãƒ¼æ–‡è¿”ã™
 		if(!"".equals(fullReservationMsg)) {
 			return fullReservationMsg;
 		}

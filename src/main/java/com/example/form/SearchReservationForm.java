@@ -11,16 +11,16 @@ public class SearchReservationForm {
 	private String kana;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate date;
+	private LocalDate checkinDate;
 	
 	private Integer payMethod;
 
-	public LocalDate getDate() {
-		return date;
+	public LocalDate getCheckinDate() {
+		return checkinDate;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setCheckinDate(LocalDate date) {
+		this.checkinDate = date;
 	}
 
 	public String getName() {
@@ -49,7 +49,7 @@ public class SearchReservationForm {
 
 	@Override
 	public String toString() {
-		return "SearchReservationForm [date=" + date + ", name=" + name + ", kana=" + kana + ", payMethod=" + payMethod
+		return "SearchReservationForm [checkinDate=" + checkinDate + ", name=" + name + ", kana=" + kana + ", payMethod=" + payMethod
 				+ "]";
 	}
 	

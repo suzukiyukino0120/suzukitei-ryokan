@@ -29,12 +29,12 @@ public class RegisterAdminValidator implements Validator{
 		AdministratorForm validationForm = (AdministratorForm)form;
 		
 	        if(!validationForm.getPassword().equals(validationForm.getPasswordConfirm())){
-				errors.rejectValue("password", "", "ƒpƒXƒ[ƒh‚ªˆê’v‚µ‚Ä‚¢‚Ü‚¹‚ñ");
+				errors.rejectValue("password", "", "ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒä¸€è‡´ã—ã¦ã„ã¾ã›ã‚“");
 			}
 			if(employeeService.load(validationForm.getEmployeeId()) == null) {
-				errors.rejectValue("employeeId", "", "‘¶İ‚µ‚È‚¢Ğˆõ”Ô†‚Å‚·");
+				errors.rejectValue("employeeId", "", "å­˜åœ¨ã—ãªã„ç¤¾å“¡ç•ªå·ã§ã™");
 			}else if(administratorService.load(validationForm.getEmployeeId()) != null) {
-				errors.rejectValue("employeeId", "", "‚±‚ÌĞˆõ”Ô†‚ÅŠù‚É“o˜^‚³‚ê‚Ä‚¢‚Ü‚·");
+				errors.rejectValue("employeeId", "", "ã“ã®ç¤¾å“¡ç•ªå·ã§æ—¢ã«ç™»éŒ²ã•ã‚Œã¦ã„ã¾ã™");
 			}
 	    }
 

@@ -3,9 +3,9 @@ package com.example.form;
 import javax.validation.constraints.NotNull;
 
 public class AdminLoginForm {
-	@NotNull(message="]‹Æˆõ”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="å¾“æ¥­å“¡ç•ªå·ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer employeeId;
-	@NotNull(message="ƒpƒXƒ[ƒh‚ğ“ü—Í‚µ‚Ä‰º‚³‚¢")
+	@NotNull(message="ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„")
 	private String password;
 
 	public Integer getEmployeeId() {

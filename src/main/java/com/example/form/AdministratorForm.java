@@ -6,14 +6,14 @@ import javax.validation.constraints.Pattern;
 
 public class AdministratorForm {
 	
-	@NotNull(message="従業員番号を入力してください")
+	@NotNull(message="蠕捺･ｭ蜩｡逡ｪ蜿ｷ繧貞�･蜉帙＠縺ｦ縺上□縺輔＞")
 	private Integer employeeId;
 	
-	@NotBlank(message="パスワードを入力してください")
-	@Pattern(regexp="^[a-zA-Z0-9]{8,16}$", message="正しく入力してください")
+	@NotBlank(message="繝代せ繝ｯ繝ｼ繝峨ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞")
+	@Pattern(regexp="^[a-zA-Z0-9]{8,16}$", message="豁｣縺励￥蜈･蜉帙＠縺ｦ縺上□縺輔＞")
 	private String password;
 	
-	@NotBlank(message="確認用パスワードを入力してください")
+	@NotBlank(message="遒ｺ隱咲畑繝代せ繝ｯ繝ｼ繝峨ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞")
 	private String passwordConfirm;
 
 	public Integer getEmployeeId() {

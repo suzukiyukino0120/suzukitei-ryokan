@@ -63,7 +63,7 @@ public class PlanController {
 			return "plan_list";
 		}
 		
-		//‘O‚ÌŒŸõŒ‹‰Ê‚ğÁ‚·
+		//å‰ã®æ¤œç´¢çµæœã‚’æ¶ˆã™
 		session.removeAttribute("planList");
 		session.removeAttribute("totalPriceList");
 		session.removeAttribute("stayDays");
@@ -75,6 +75,7 @@ public class PlanController {
 		if(form.getDate() != null){
 			planList= 
 					planService.searchPlanWithDate(form.getSmoking(), form.getBathroom(), form.getBreakfast(), form.getDinner(), form.getDate(), form.getStayDays()-1, form.getNumOfGuest());
+		
 		}else {
 			planList=
 					planService.searchPlanWithoutDate(form.getSmoking(), form.getBathroom(), form.getBreakfast(), form.getDinner(), form.getPlanId(), form.getNumOfGuest());
@@ -87,6 +88,7 @@ public class PlanController {
 			session.setAttribute("stayDays", form.getStayDays());
 			session.setAttribute("numOfGuest", form.getNumOfGuest());
 			session.setAttribute("checkinDate", form.getDate());
+			
 		
 		return "plan_list";
 		

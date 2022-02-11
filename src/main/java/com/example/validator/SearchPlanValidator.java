@@ -25,7 +25,7 @@ public class SearchPlanValidator implements Validator{
 		LocalDate today = LocalDate.now();
 		if(validationForm.getDate() != null) {
 			if(today.compareTo(validationForm.getDate()) >= 0) {
-				errors.rejectValue("date", "", "–¾“úˆÈ~‚Ì“ú•t‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
+				errors.rejectValue("date", "", "æ˜æ—¥ä»¥é™ã®æ—¥ä»˜ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„");
 			}
 		}
 

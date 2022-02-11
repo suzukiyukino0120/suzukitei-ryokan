@@ -8,16 +8,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class UpdateReservationLimitForm {
 	
-	@NotNull(message="•”‰®1‚Ì—\–ñãŒÀ”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="éƒ¨å±‹1ã®äºˆç´„ä¸Šé™æ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer limitOfRoom1;
 	
-	@NotNull(message="•”‰®2‚Ì—\–ñãŒÀ”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="éƒ¨å±‹2ã®äºˆç´„ä¸Šé™æ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer limitOfRoom2;
 	
-	@NotNull(message="•”‰®3‚Ì—\–ñãŒÀ”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="éƒ¨å±‹3ã®äºˆç´„ä¸Šé™æ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer limitOfRoom3;
 	
-	@NotNull(message="•”‰®4‚Ì—\–ñãŒÀ”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="éƒ¨å±‹4ã®äºˆç´„ä¸Šé™æ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer limitOfRoom4;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

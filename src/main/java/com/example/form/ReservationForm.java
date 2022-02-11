@@ -12,39 +12,39 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class ReservationForm {
 	
-	@NotBlank(message="–¼‘O‚ğ“ü—Í‚µ‚Ä‰º‚³‚¢")
+	@NotBlank(message="åå‰ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„")
 	private String name;
 	
-	@NotBlank(message="‚Ó‚è‚ª‚È‚ğ“ü—Í‚µ‚Ä‰º‚³‚¢")
-	@Pattern(regexp="^[‚Ÿ-‚ñ[]*$", message="‚Ğ‚ç‚ª‚È‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotBlank(message="ãµã‚ŠãŒãªã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„")
+	@Pattern(regexp="^[ã-ã‚“ãƒ¼]*$", message="ã²ã‚‰ãŒãªã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private String kana;
 	
-	@NotBlank(message="—X•Ö”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
-	@Pattern(regexp="^[0-9]{7}$", message="—X•Ö”Ô†‚ÍƒnƒCƒtƒ“‚È‚µ‚Ì‚VŒ…‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotBlank(message="éƒµä¾¿ç•ªå·ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
+	@Pattern(regexp="^[0-9]{7}$", message="éƒµä¾¿ç•ªå·ã¯ãƒã‚¤ãƒ•ãƒ³ãªã—ã®ï¼—æ¡ã§å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private String zipcode;
 	
-	@NotBlank(message="ZŠ‚ğ“ü—Í‚µ‚Ä‰º‚³‚¢")
+	@NotBlank(message="ä½æ‰€ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„")
 	private String address;
 	
-	@NotBlank(message="“d˜b”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
-	@Pattern(regexp="^[0-9]{9,12}$", message="“d˜b”Ô†‚ÍƒnƒCƒtƒ“‚È‚µ‚Ì9Œ…`12Œ…‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotBlank(message="é›»è©±ç•ªå·ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
+	@Pattern(regexp="^[0-9]{9,12}$", message="é›»è©±ç•ªå·ã¯ãƒã‚¤ãƒ•ãƒ³ãªã—ã®9æ¡ï½12æ¡ã§å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private String telephone;
 	
-	@NotBlank(message="ƒ[ƒ‹ƒAƒhƒŒƒX‚ğ“ü—Í‚µ‚Ä‰º‚³‚¢")
-	@Email(message="ƒ[ƒ‹ƒAƒhƒŒƒX‚ÌŒ`®‚ª•s³‚Å‚·")
+	@NotBlank(message="ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„")
+	@Email(message="ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã®å½¢å¼ãŒä¸æ­£ã§ã™")
 	private String email;
 	
-	@NotNull(message="ƒ`ƒFƒbƒNƒCƒ“‚Ì“ú•t‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="ãƒã‚§ãƒƒã‚¯ã‚¤ãƒ³ã®æ—¥ä»˜ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate checkinDate;
 	
-	@NotNull(message="h”‘“ú”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="å®¿æ³Šæ—¥æ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer stayDays;
 	
-	@NotNull(message="h”‘l”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="å®¿æ³Šäººæ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„")
 	private Integer numOfGuest;
 	
-	@NotNull(message="‚¨x•¥•û–@‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢")
+	@NotNull(message="ãŠæ”¯æ‰•æ–¹æ³•ã‚’é¸æŠã—ã¦ãã ã•ã„")
 	private Integer payMethod;
 	
 	private Integer planId;

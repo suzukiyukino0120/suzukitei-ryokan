@@ -22,11 +22,11 @@ public class PlanService {
 	public List<Plan> searchPlanWithDate(Integer smoking, Integer bathroom, Integer breakfast, Integer dinner, LocalDate date, Integer stayDays, Integer numOfGuest){
 		List<Plan> planList = planMapper.findPlanWithDate(smoking, bathroom, breakfast, dinner, date, stayDays, numOfGuest);
 		
-		//‹óº‚ ‚éƒvƒ‰ƒ“‚ğœ‚­
+		//ç©ºå®¤ã‚ã‚‹ãƒ—ãƒ©ãƒ³ã‚’é™¤ã
 		Iterator<Plan> it = planList.iterator();
 		while(it.hasNext()){
 			Plan plan = it.next();
-			if(plan.getRoom().getReservationCalender().size()<stayDays) {
+			if(plan.getRoom().getReservationCalender().size()<stayDays+1) {
 				it.remove();
 			}
 		}
@@ -38,7 +38,7 @@ public class PlanService {
 		return planMapper.findPlanWithoutDate(smoking, bathroom, breakfast, dinner, planId, numOfGuest);
 	}
 	
-	//ŒŸõ‰æ–Ê‚Å•\¦‚³‚¹‚éƒvƒ‰ƒ“‚²‚Æ‚Ìh”‘—¿‹à‚ğŒvZ‚·‚éƒƒ\ƒbƒh
+	//æ¤œç´¢ç”»é¢ã§è¡¨ç¤ºã•ã›ã‚‹ãƒ—ãƒ©ãƒ³ã”ã¨ã®å®¿æ³Šæ–™é‡‘ã‚’è¨ˆç®—ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
 	public List<Integer> calcTotalPrice(List<Plan> planList, Integer numOfGuest, Integer stayDays){
 		List<Integer> totalPriceList = new LinkedList<>();
 		

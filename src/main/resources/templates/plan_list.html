@@ -96,7 +96,6 @@
 				<button class="btn btn-outline-success" type="submit" style="font-family:serif">検索</button>
 			</div>
 		</form>
-	<br>
 	<div class="row">
 	<div
           class="
@@ -114,6 +113,8 @@
             col-sm-10
           "
         >
+        <div th:if="${session.planList != null}" th:text="'検索結果：' + ${session.planList.size()} + '件'"></div>
+        <br>
 	<table class="table" th:each="plan,status:${session.planList}">
 	<th:block>
 	  <thead class="table-dark">

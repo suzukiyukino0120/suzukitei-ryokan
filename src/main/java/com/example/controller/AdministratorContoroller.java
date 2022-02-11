@@ -58,12 +58,12 @@ public class AdministratorContoroller {
 
 	@RequestMapping("/toLogin")
 	public String toLogin() {
-		return "/administrator/login";
+		return "administrator/login";
 	}
 	
 	@RequestMapping("/toRegister")
 	public String toRegister() {
-		return "/administrator/administrator_register";
+		return "administrator/administrator_register";
 	}
 	
 	@RequestMapping("/register")
@@ -77,13 +77,13 @@ public class AdministratorContoroller {
 		
 		administratorService.insert(administrator);
 		
-		return "/administrator/login";
+		return "administrator/login";
 	}
 	
 	@RequestMapping("/login")
 	public String login(@Validated AdminLoginForm form, BindingResult result, Model model) {
 		if(result.hasErrors()) {
-			return "/administrator/login";
+			return "administrator/login";
 		}
 
 		return "redirect:/manage/toReservationList";
@@ -93,7 +93,7 @@ public class AdministratorContoroller {
 	@RequestMapping("/logout")
 	public String logout() {
 //		session.invalidate();		
-		return "/administrator/login";
+		return "administrator/login";
 	}
 	
 	

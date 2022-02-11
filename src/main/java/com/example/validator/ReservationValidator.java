@@ -33,13 +33,13 @@ public class ReservationValidator implements Validator{
 		Integer guestCapacity = planInfo.getRoom().getGuestCapacity();
 		
 			if(guestCapacity <= validationForm.getNumOfGuest()) {
-				errors.rejectValue("numOfGuest", "", "‚±‚Ì‚¨•”‰®‚Í"+ guestCapacity +"l•”‰®‚Å‚·");
+				errors.rejectValue("numOfGuest", "", "ã“ã®ãŠéƒ¨å±‹ã¯"+ guestCapacity +"äººéƒ¨å±‹ã§ã™");
 			}
 		
 		LocalDate today = LocalDate.now();
 		if(validationForm.getCheckinDate() != null) {
 			if(today.compareTo(validationForm.getCheckinDate()) >= 0) {
-				errors.rejectValue("checkinDate", "", "h”‘“ú‚Í–¾“úˆÈ~‚É‚µ‚Ä‚­‚¾‚³‚¢");
+				errors.rejectValue("checkinDate", "", "å®¿æ³Šæ—¥ã¯æ˜æ—¥ä»¥é™ã«ã—ã¦ãã ã•ã„");
 			}
 		
 		

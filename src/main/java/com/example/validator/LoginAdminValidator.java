@@ -29,7 +29,7 @@ public class LoginAdminValidator implements Validator{
 		Administrator administrator = administratorService.findByIdAndPass(validationForm.getEmployeeId(), validationForm.getPassword());
 
 		if(administrator == null) {
-			errors.rejectValue("employeeId", "", "Ğˆõ”Ô†‚©ƒpƒXƒ[ƒh‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·");
+			errors.rejectValue("employeeId", "", "ç¤¾å“¡ç•ªå·ã‹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒé–“é•ã£ã¦ã„ã¾ã™");
 		}
 	}
 

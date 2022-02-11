@@ -43,7 +43,7 @@ public class ReservationController {
 	@ModelAttribute
 	public ReservationForm setUpReservationForm() { 
 		
-		//“ü—ÍŠm”F‰æ–Ê‚©‚ç“ü—Í‰æ–Ê‚É–ß‚Á‚½‚ÉƒtƒH[ƒ€‚É•\¦‚³‚ê‚é‚æ‚¤‚É‚·‚é
+		//å…¥åŠ›ç¢ºèªç”»é¢ã‹ã‚‰å…¥åŠ›ç”»é¢ã«æˆ»ã£ãŸæ™‚ã«ãƒ•ã‚©ãƒ¼ãƒ ã«è¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
 		ReservationForm form = new ReservationForm();
 		if(session.getAttribute("reservation") != null){
 			Reservation reservation = (Reservation) session.getAttribute("reservation");
@@ -73,7 +73,7 @@ public class ReservationController {
 			session.setAttribute("plan", planList.get(planListNum));
 		}
 		
-		//ŒŸõğŒ‚Åw’è‚µ‚½h”‘l”Ah”‘“ú”Aƒ`ƒFƒbƒNƒCƒ““ú‚ğ—\–ñƒtƒH[ƒ€‚É“ü—ÍÏ‚İ‚É‚·‚é
+		//æ¤œç´¢æ¡ä»¶ã§æŒ‡å®šã—ãŸå®¿æ³Šäººæ•°ã€å®¿æ³Šæ—¥æ•°ã€ãƒã‚§ãƒƒã‚¯ã‚¤ãƒ³æ—¥ã‚’äºˆç´„ãƒ•ã‚©ãƒ¼ãƒ ã«å…¥åŠ›æ¸ˆã¿ã«ã™ã‚‹
 		ReservationForm form = new ReservationForm();
 		form.setNumOfGuest((Integer) session.getAttribute("numOfGuest"));
 		form.setStayDays((Integer) session.getAttribute("stayDays"));
@@ -96,7 +96,7 @@ public class ReservationController {
 		Reservation reservation = new Reservation();
 		BeanUtils.copyProperties(form, reservation);
 		
-		//‡Œv‹àŠzŒvZ
+		//åˆè¨ˆé‡‘é¡è¨ˆç®—
 		Plan chargeInfo = reservationService.checkCharge(form.getPlanId());
 		reservation.setTotalPrice(reservation.calcTotalPrice(form.getNumOfGuest(), form.getStayDays(), chargeInfo.getAdditionalCharge(), chargeInfo.getBasicCharge()));
 		
@@ -109,23 +109,23 @@ public class ReservationController {
 	@RequestMapping("/complete")
 	public String completeReservation(ReservationForm form, Model model) {
 		
-		//‹óºŒŸõi—\–ñƒtƒH[ƒ€‚Å“ú•t•Ï‚¦‚½lA‹óºŒŸõ‚µ‚Ä‚È‚¢lAƒtƒH[ƒ€“ü—Í’†‚É—\–ñ˜g–„‚Ü‚é‰Â”\«‚ğl—¶j
+		//ç©ºå®¤æ¤œç´¢ï¼ˆäºˆç´„ãƒ•ã‚©ãƒ¼ãƒ ã§æ—¥ä»˜å¤‰ãˆãŸäººã€ç©ºå®¤æ¤œç´¢ã—ã¦ãªã„äººã€ãƒ•ã‚©ãƒ¼ãƒ å…¥åŠ›ä¸­ã«äºˆç´„æ åŸ‹ã¾ã‚‹å¯èƒ½æ€§ã‚’è€ƒæ…®ï¼‰
 		Plan plan = (Plan) session.getAttribute("plan");
 		Integer roomId = plan.getRoomId();
 		String fullReservationMsg
 		= reservationService.checkFullReservation(form.getCheckinDate(), form.getCheckinDate().plusDays(form.getStayDays()-1), roomId);
 		
-		//–º‚ÌƒGƒ‰\ƒy[ƒW•\¦
+		//æº€å®¤ã®æ™‚ã‚¨ãƒ©â€•ãƒšãƒ¼ã‚¸è¡¨ç¤º
 		if(!"".equals(fullReservationMsg)) {
 			model.addAttribute("fullReservationMsg", fullReservationMsg);
 			return "full_reservation";
 		}
 
-		//—\–ñƒe[ƒuƒ‹XV
+		//äºˆç´„ãƒ†ãƒ¼ãƒ–ãƒ«æ›´æ–°
 		Reservation reservation = (Reservation) session.getAttribute("reservation");
 		reservationService.insert(reservation);
 		
-		//—\–ñƒJƒŒƒ“ƒ_[XV
+		//äºˆç´„ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼æ›´æ–°
 		reservationCalenderService.updateReservationCalender(form.getCheckinDate(), form.getStayDays()-1, roomId);
 		
 		return "redirect:/reservation/toComplete";

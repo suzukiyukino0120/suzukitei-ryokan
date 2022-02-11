@@ -7,11 +7,11 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class SearchReservationLimitForm {
-	@NotNull(message="始まりの日付を入力してください")
+	@NotNull(message="蟋九∪繧翫�ｮ譌･莉倥ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate startDate;
 	
-	@NotNull(message="終わりの日付を入力してください")
+	@NotNull(message="邨ゅｏ繧翫�ｮ譌･莉倥ｒ蜈･蜉帙＠縺ｦ縺上□縺輔＞")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate endDate;
 	
